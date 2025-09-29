@@ -122,7 +122,7 @@ function customerHtml(b: Booking) {
         <tr><td style="padding:6px 0;color:#6b7280"><b>Data i godzina:</b></td><td style="padding:6px 0">${b.date}, ${b.time}</td></tr>
         <tr><td style="padding:6px 0;color:#6b7280"><b>Czas trwania:</b></td><td style="padding:6px 0">${b.duration}</td></tr>
         <tr><td style="padding:12px 0 6px;color:#374151;font-size:16px"><b>Cena całkowita:</b></td>
-            <td style="padding:12px 0 6px;color:#16a34a;font-weight:700;font-size:18px">${b.price} zł</td></tr>
+            <td style="padding:12px 0 6px;color:#16a34a;font-weight:700;font-size:18px">${formatPLN(b.price)}</td>
       </table>
     </div>
 
@@ -178,7 +178,8 @@ function adminHtml(b: Booking) {
         <tr><td style="padding:6px 0;color:#166534"><b>Data:</b></td><td style="padding:6px 0">${b.date}</td></tr>
         <tr><td style="padding:6px 0;color:#166534"><b>Godzina:</b></td><td style="padding:6px 0">${b.time}</td></tr>
         <tr><td style="padding:6px 0;color:#166534"><b>Czas trwania:</b></td><td style="padding:6px 0">${b.duration}</td></tr>
-        <tr><td style="padding:12px 0 6px;color:#16a34a;font-size:16px"><b>Cena:</b></td><td style="padding:12px 0 6px;color:#16a34a;font-weight:700;font-size:18px">${b.price} zł</td></tr>
+        <tr><td style="padding:12px 0 6px;color:#16a34a;font-size:16px"><b>Cena:</b></td><td style="padding:12px 0 6px;color:#16a34a;font-weight:700;font-size:18px">
+    ${formatPLN(b.price)}
       </table>
     </div>
 
