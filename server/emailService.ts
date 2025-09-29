@@ -25,7 +25,7 @@ Imię i nazwisko: ${booking.firstName} ${booking.lastName}
 
 ${booking.additionalInfo ? `📝 Dodatkowe informacje:\n${booking.additionalInfo}` : ''}
 
-Numer rezerwacji: ${booking.id}
+Numer. rezerwacji: ${booking.id}
 Data utworzenia: ${booking.createdAt ? new Date(booking.createdAt).toLocaleString('pl-PL') : 'Nie określono'}
   `.trim();
 }
