@@ -5,24 +5,7 @@ import { setupVite, serveStatic, log } from "./vite";
 const app = express();
 
 // Add Content Security Policy headers to allow React/Vite to function on Render
-app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:",
-      "style-src 'self' 'unsafe-inline' data:",
-      "img-src 'self' data: blob: https:",
-      "font-src 'self' data:",
-      "connect-src 'self' ws: wss: https:",
-      "media-src 'self' data:",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'"
-    ].join('; ')
-  );
-  next();
-});
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
