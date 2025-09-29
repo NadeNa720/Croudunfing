@@ -15,14 +15,15 @@ export default function VideoSection() {
         <Card className="overflow-hidden">
           <CardContent className="p-0">
             <div className="relative aspect-video bg-muted">
-              <iframe
-                src="https://www.youtube.com/embed/5MS_COp6CnA"
-                title="Zobacz jak pracujemy - SprzątanieMieszkań.com"
-                className="absolute inset-0 w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                data-testid="video-youtube"
-              />
+                    <iframe
+                      src="https://www.youtube.com/embed/5MS_COp6CnA"
+                      title="Zobacz jak pracujemy - SprzątanieMieszkań.com"
+                      className="absolute inset-0 w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      data-testid="video-youtube"
+                    ></iframe>
+
             </div>
           </CardContent>
         </Card>

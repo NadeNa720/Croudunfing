@@ -280,7 +280,7 @@ export default function BookingForm({ selectedService, onSubmit }: BookingFormPr
                   <span className="font-medium">Czas trwania: {calculatedDuration}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Euro className="w-4 h-4 text-muted-foreground" />
+
                   <span className="font-semibold text-lg">
                     {calculatedPrice > 0 ? `${calculatedPrice.toFixed(2)} zł` : 'Wycena indywidualna'}
                   </span>
