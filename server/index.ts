@@ -5,6 +5,33 @@ import { setupVite, serveStatic, log } from "./vite";
 const app = express();
 
 // Add Content Security Policy headers to allow React/Vite to function on Render
+app.use((req, res, next) => {
+  // Минимально-необходимая CSP для твоего приложения + YouTube iframe
+  res.setHeader(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+
+      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
+
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://www.youtube.com https://s.ytimg.com",
+
+      "style-src 'self' 'unsafe-inline' data:",
+
+      "img-src 'self' data: blob: https: https://i.ytimg.com",
+
+      "font-src 'self' data:",
+
+      "connect-src 'self' ws: wss: https: https://www.youtube.com",
+
+      "media-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join("; ")
+  );
+  next();
+});
 
 
 app.use(express.json());
