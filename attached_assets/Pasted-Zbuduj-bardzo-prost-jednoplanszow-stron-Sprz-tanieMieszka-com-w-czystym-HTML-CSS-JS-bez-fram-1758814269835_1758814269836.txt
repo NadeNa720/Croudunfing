@@ -1,0 +1,120 @@
+Zbuduj bardzo prostą, jednoplanszową stronę „SprzątanieMieszkań.com” w czystym HTML/CSS/JS (bez frameworków). Cały tekst ma być po polsku. Strona ma umożliwiać wybór usługi sprzątania, wybór daty i godziny, wypełnienie danych kontaktowych i szybką rezerwację (na razie jako „mock” – pokaż podsumowanie w modalu i wyślij dane do console.log).
+
+Wymagania funkcjonalne:
+
+Sekcje strony:
+
+Nagłówek z logo tekstowym „SprzątanieMieszkań.com” i hasłem: „Profesjonalne sprzątanie mieszkań w całej Polsce. Zarezerwuj w 60 sekund.”
+
+Sekcja usług: kafelki z przyciskiem „ZAREZERWUJ”. Po kliknięciu usługa ma się zaznaczyć i wypełnić pole „Usługa” w formularzu.
+
+Formularz rezerwacji: pola
+
+Usługa (readonly, wypełniane po kliknięciu kafelka)
+
+Metraż (select: „do 30 m²”, „do 60 m²”, „do 90 m²”, „do 120 m²”)
+
+Data (date picker)
+
+Godzina (time picker)
+
+Imię i nazwisko
+
+Telefon
+
+E-mail
+
+Adres (ulica, nr, miasto, kod)
+
+Dodatkowe informacje (textarea)
+
+Zgody: checkbox RODO „Wyrażam zgodę na przetwarzanie danych osobowych w celu realizacji rezerwacji.” (wymagane)
+
+Przycisk „Potwierdź rezerwację”.
+Po wysłaniu: pokaż modal z podsumowaniem (usługa, data, godzina, cena orientacyjna) i wyczyść formularz.
+
+Wideo: osadź YouTube https://youtu.be/5MS_COp6CnA
+ w responsywnym iframe w sekcji „Zobacz jak pracujemy”.
+
+FAQ (3–4 pytania) i Stopka z danymi kontaktowymi (e-mail, telefon) oraz linkiem do polityki prywatności (placeholder).
+
+Usługi i ceny (pokaż je jako kafelki; każda ma krótki opis + orientacyjny czas i cenę; przycisk „ZAREZERWUJ”):
+
+Sprzątanie podstawowe – do 30 m² (pakiet srebrny) — 3 godz. — 399,99 zł
+
+opcja: „+ Mycie okien standardowej wielkości (1,5 m x 1,5 m)” — 4 godz. — 499,99 zł
+
+opcja: „+ Mycie okien niestandardowej wielkości (powyżej 1,5 m x 1,5 m)” — 5 godz. 30 min — 699,99 zł
+
+Sprzątanie podstawowe – do 60 m² (pakiet srebrny) — 4 godz. — 479,99 zł
+
+okna standard — 5 godz. 30 min — 699,99 zł
+
+okna niestandard — 6 godz. 30 min — 799,99 zł
+
+Sprzątanie podstawowe – do 90 m² (pakiet srebrny) — 6 godz. — 799,99 zł
+
+okna standard — 7 godz. 30 min — 899,99 zł
+
+okna niestandard — 8 godz. 30 min — 1 099,99 zł
+
+Sprzątanie podstawowe – do 120 m² (pakiet srebrny) — 7 godz. — 899,99 zł
+
+okna standard — 8 godz. — 999,99 zł
+
+okna niestandard — 9 godz. 30 min — 1 099,99 zł
+
+Sprzątanie kompleksowe – do 30 m² (pakiet platynowy) — 5 godz. — 599,99 zł
+
+Sprzątanie kompleksowe – do 60 m² (pakiet platynowy) — 6 godz. — 899,99 zł
+
+okna standard — 7 godz. 30 min — 1 099,99 zł
+
+okna niestandard — 8 godz. 30 min — 1 199,99 zł
+
+Sprzątanie kompleksowe – do 90 m² (pakiet platynowy) — 8 godz. — 1 199,99 zł
+
+okna standard — 9 godz. 30 min — 1 299,99 zł
+
+Sprzątanie kompleksowe – do 120 m² (pakiet platynowy) — 9 godz. — 1 099,99 zł
+
+okna standard — 11 godz. — 1 499,99 zł
+
+okna niestandard — 12 godz. 30 min — 1 599,99 zł
+
+Poremontowe sprzątanie mieszkań:
+– do 30 m² — 6 godz. — 599,99 zł
+– do 60 m² — 11 godz. — 1 199,99 zł
+– do 90 m² — 1 dzień 8 godz. — 1 599,99 zł
+– do 120 m² — 2 dni — 1 799,99 zł
+
+Serwis sprzątający apartamentów na wynajem krótkoterminowy (dla klientów z umową):
+– apartament do 35 m² — 3 godz.
+– apartament do 60 m² — 4 godz.
+(przycisk „ZAREZERWUJ”, bez podawania ceny – „wycena indywidualna”)
+
+Niestandardowa usługa sprzątania — 8 godz. — wycena indywidualna
+
+Zasady UI/UX:
+
+Minimalistyczny, czytelny design (Inter/Helvetica), jasne kafelki, duże CTA „ZAREZERWUJ”.
+
+Kafelki usług mają radio-selection (zaznaczony tylko jeden wariant); po kliknięciu przewiń do formularza.
+
+W formularzu pokaż szacunkową cenę i czas trwania na podstawie wybranej usługi.
+
+Walidacja: wymagane pola + komunikaty błędów po polsku.
+
+Strona responsywna (mobile-first).
+
+Techniczne:
+
+Jeden plik index.html + wbudowany <style> i prosty <script>.
+
+Cennik w JS jako obiekt (klucz → cena, czas), aby móc łatwo liczyć podsumowanie.
+
+Modal podsumowania rezerwacji z przyciskiem „Zamknij”.
+
+Dla dostępności: alt-y, label-for, focus states.
+
+Dodaj przykładowy tekst SEO (title/description), sekcję „Dlaczego my?” (3 ikony/boxy), oraz krótką politykę prywatności (placeholder). Cały content pisz po polsku.
