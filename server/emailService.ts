@@ -71,9 +71,15 @@ export async function sendBusinessNotification(booking: Booking): Promise<void> 
   const text = formatBookingForEmail(booking);
   await retryEmailSend(() => sendMail(to, subject, html, text));
 }
+function formatPLN(price: number | string): string {
+
+  const cleaned = String(price).replace(/[^\d.,-]/g, "").replace(",", ".");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? `${n.toFixed(2)} zł` : `${cleaned} zł`;
+}
 
 
-// «проверка соединения» для SendGrid
+
 export async function testEmailConnection(): Promise<boolean> {
   try {
     await sgMail.send({
