@@ -4,23 +4,21 @@ import { useLocation } from "wouter";
 
 const VISIBLE_COUNT = 3;
 
-/* Автоподбор изображений из src/assets/realizacje */
+/** Автоподбор фото из src/assets/realizacje */
 const modules = import.meta.glob(
   "../assets/realizacje/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}",
   { eager: true, query: "?url", import: "default" }
 ) as Record<string, string>;
 
 type Photo = { url: string; name: string; order: number };
-
 function parseMeta(path: string): Photo {
   const url = modules[path];
   const file = path.split("/").pop() || "";
   const base = file.replace(/\.[^/.]+$/, "");
-  const matchNum = base.match(/(\d+)\s*$/);
-  const order = matchNum ? parseInt(matchNum[1], 10) : 0;
+  const m = base.match(/(\d+)\s*$/);
+  const order = m ? parseInt(m[1], 10) : 0;
   return { url, name: base, order };
 }
-
 const PHOTOS: Photo[] = Object.keys(modules)
   .map(parseMeta)
   .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
@@ -29,21 +27,23 @@ export default function Realizacje() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [location, setLocation] = useLocation();
 
-  const hasLightbox = lightboxIndex !== null;
-  const lightboxPhoto = useMemo(
+  const opened = lightboxIndex !== null;
+  const photo = useMemo(
     () => (lightboxIndex !== null ? PHOTOS[lightboxIndex] : null),
     [lightboxIndex]
   );
 
-  // запрет скролла фона при открытом лайтбоксе
+  // Блокируем скролл фона при открытом лайтбоксе
   useEffect(() => {
-    if (!hasLightbox) return;
+    if (!opened) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => (document.body.style.overflow = prev);
-  }, [hasLightbox]);
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [opened]);
 
-  // клавиши
+  // Клавиши
   useEffect(() => {
     if (lightboxIndex === null) return;
     const onKey = (e: KeyboardEvent) => {
@@ -59,7 +59,7 @@ export default function Realizacje() {
     return () => window.removeEventListener("keydown", onKey);
   }, [lightboxIndex]);
 
-  // свайпы
+  // Свайпы на мобильных
   useEffect(() => {
     if (lightboxIndex === null) return;
     let startX = 0;
@@ -84,21 +84,28 @@ export default function Realizacje() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* общий Header проекта */}
       <Header onScrollToBooking={() => setLocation("/")} />
 
-      {/* Заголовок */}
-      <section className="max-w-6xl mx-auto px-4 pt-10 pb-6">
-        <h1 className="text-3xl md:text-5xl font-bold leading-tight">
-          Nasze <span className="text-blue-600">realizacje</span>
-        </h1>
-        <p className="mt-3 text-slate-600 max-w-2xl">
-          Zobacz wybrane zdjęcia naszych prac. Kliknij jedno z nich, aby
-          uruchomić galerię i przeglądać kolejne.
-        </p>
+      {/* Hero — как в твоём HTML */}
+      <section className="text-center py-16 bg-muted/40">
+        <div className="max-w-3xl mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+            Porady i <span className="text-blue-600">Realizacje</span>
+          </h1>
+          <p className="mt-3 text-lg text-muted-foreground">
+            Przykłady naszej pracy + praktyczne wskazówki do sprzątania. Wszystko w jednym miejscu!
+          </p>
+        </div>
       </section>
 
-      {/* Только первые 3 фото + кнопка открыть галерею */}
-      <section className="max-w-6xl mx-auto px-4 pb-10">
+      {/* Nasze Realizacje — видно только 3 фото, далее лайтбокс */}
+      <section className="max-w-6xl mx-auto px-4 pt-12 pb-8">
+        <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">Nasze Realizacje</h2>
+        <p className="text-center text-muted-foreground mb-8">
+          Zobacz efekty naszej pracy – kliknij zdjęcie, aby uruchomić galerię i przeglądać kolejne.
+        </p>
+
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
           {PHOTOS.slice(0, VISIBLE_COUNT).map((p, i) => (
             <img
@@ -112,125 +119,104 @@ export default function Realizacje() {
           ))}
         </div>
 
-        <div className="mt-4 flex">
+        <div className="mt-4 flex justify-center">
           <button
             onClick={() => setLightboxIndex(0)}
-            className="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700"
+            className="px-5 py-2.5 rounded-xl bg-blue-600 text-white hover:bg-blue-700"
           >
             Zobacz całą galerię ({PHOTOS.length})
           </button>
         </div>
       </section>
 
-      {/* Twój tekst – оформлен и подан блоками */}
-      <section className="max-w-6xl mx-auto px-4 pb-16 prose prose-slate md:prose-lg">
-        <h2>Meble na wysoki połysk</h2>
-        <p>
-          Aby zachować wysoki połysk na meblach podczas sprzątania, istnieje
-          kilka zasad i praktyk, których warto przestrzegać. Oto kilka
-          wskazówek dotyczących sprzątania mebli o wysokim połysku:
-        </p>
-        <h3>Delikatność w działaniu</h3>
-        <p>
-          Meble o wysokim połysku są podatne na zarysowania i ślady, dlatego
-          korzystaj z miękkich materiałów. Wybieraj delikatne środki
-          czyszczące, bez silnych substancji ścierających.
-        </p>
-        <h3>Wilgotne, nie mokre</h3>
-        <p>
-          Unikaj zbyt wilgotnych ściereczek. Woda może uszkodzić powierzchnię,
-          zwłaszcza jeśli zostanie pozostawiona do wyschnięcia. Używaj lekko
-          wilgotnej mikrofibry do kurzu i zabrudzeń.
-        </p>
-        <h3>Środki do mebli o wysokim połysku</h3>
-        <p>
-          Używaj dedykowanych środków (spreje/płyny), które czyszczą i
-          zabezpieczają powierzchnię.
-        </p>
-        <h3>Unikaj środków z olejami</h3>
-        <p>
-          Produkty z olejami mogą zostawiać smugi i zmniejszać połysk. Wybieraj
-          lekkie formuły, łatwe do rozprowadzania.
-        </p>
-        <h3>Odpowiednie ściereczki</h3>
-        <p>
-          Stosuj mikrofibrę – jest delikatna, nie zostawia śladów i skutecznie
-          zbiera kurz.
-        </p>
-        <h3>Regularne czyszczenie</h3>
-        <p>
-          Regularna rutyna zapobiega nagromadzeniu brudu i utracie blasku.
-        </p>
-        <h3>Unikaj promieni słonecznych</h3>
-        <p>
-          Ustaw meble z dala od bezpośredniego słońca – może powodować
-          blaknięcie i mikrouszkodzenia powierzchni.
-        </p>
-        <h3>Uważaj na zanieczyszczenia</h3>
-        <p>
-          Kurz działa jak drobny ścierniwo – systematycznie go usuwaj.
-        </p>
-        <p>
-          Pamiętaj, że różne rodzaje mebli mogą wymagać innych metod – zawsze
-          sprawdzaj zalecenia producenta.
-        </p>
+      {/* Porady — блоки/карточки, как в твоём дизайне */}
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold text-blue-600 text-center mb-8">Porady Sprzątaniowe</h2>
 
-        <h2>Czystość płytek w połysku</h2>
-        <p>
-          By zachować płytki w czystości, regularnie usuwaj drobne zabrudzenia
-          miękką ściereczką lub mopem. Unikaj silnych detergentów i szorstkich
-          narzędzi, które mogą rysować powierzchnię.
-        </p>
-        <p>
-          Czyszczenie płytek w połysku wymaga staranności, aby uniknąć smug.
-          Środki marki <strong>CLINEX</strong> świetnie się sprawdzają:
-        </p>
-        <ol>
-          <li>
-            <strong>Przygotowanie</strong>: odkurz/zmieć, by usunąć piasek i
-            kurz (mniej ryzyka rys).
-          </li>
-          <li>
-            <strong>Wybór środka</strong>: np. Clinex DEZOFast lub Clinex W3
-            Multi – sprawdź dozowanie na etykiecie.
-          </li>
-          <li>
-            <strong>Roztwór</strong>: rozcieńcz w ciepłej wodzie zgodnie z
-            instrukcją.
-          </li>
-          <li>
-            <strong>Mycie</strong>: użyj mikrofibry/mopa, nie zostawiaj nadmiaru
-            wody.
-          </li>
-          <li>
-            <strong>Spłukiwanie</strong>: przetrzyj czystą wodą, by usunąć
-            resztki środka.
-          </li>
-          <li>
-            <strong>Polerowanie</strong>: sucha, czysta mikrofibra na koniec –
-            idealny połysk.
-          </li>
-        </ol>
-        <p>
-          Stosowanie się do tych wskazówek zapewni lśniący efekt bez smug.
-        </p>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <TipCard title="Meble na wysoki połysk — Delikatność w działaniu">
+            Meble o wysokim połysku są podatne na zarysowania i ślady, dlatego korzystaj z miękkich materiałów, aby uniknąć uszkodzeń. Wybieraj delikatne środki czyszczące, które nie zawierają silnych substancji ścierających.
+          </TipCard>
+          <TipCard title="Meble na wysoki połysk — Wilgotne, nie mokre">
+            Unikaj używania zbyt wilgotnej ściereczki lub gąbki. Woda może uszkodzić powierzchnię mebli – używaj lekko wilgotnej mikrofibry.
+          </TipCard>
+          <TipCard title="Meble na wysoki połysk — Środki do połysku">
+            Wybieraj specjalne środki do mebli o wysokim połysku (spreje/płyny), które czyszczą i jednocześnie zabezpieczają powierzchnię.
+          </TipCard>
+          <TipCard title="Meble na wysoki połysk — Unikaj olejów">
+            Środki z olejami mogą zostawiać smugi i zmniejszać połysk. Wybieraj lekkie formuły.
+          </TipCard>
+          <TipCard title="Meble na wysoki połysk — Odpowiednie ściereczki">
+            Mikrofibra jest delikatna, nie zostawia śladów i skutecznie zbiera kurz.
+          </TipCard>
+          <TipCard title="Meble na wysoki połysk — Regularne czyszczenie">
+            Rutyna zapobiega nagromadzeniom i utracie blasku.
+          </TipCard>
+          <TipCard title="Meble na wysoki połysk — Unikaj słońca">
+            Bezpośrednie promienie mogą powodować blaknięcie i mikrouszkodzenia powierzchni.
+          </TipCard>
+          <TipCard title="Meble na wysoki połysk — Uważaj na zanieczyszczenia">
+            Kurz działa jak drobne ścierniwo — usuwaj go systematycznie.
+          </TipCard>
+        </div>
 
-        <h2>Osad z mydła na szybie?</h2>
-        <p>
-          Przy uporczywym osadzie nałóż odrobinę żelu do naczyń, odczekaj kilka
-          minut, przetrzyj i spłucz. Zawsze testuj na małym fragmencie i unikaj
-          twardych narzędzi oraz agresywnych chemikaliów.
+        <p className="text-center mt-6 italic text-sm text-muted-foreground">
+          Pamiętaj, że różne rodzaje mebli mogą wymagać różnych podejść — zawsze sprawdzaj zalecenia producenta.
         </p>
       </section>
 
-      {/* Лайтбокс со слайд-шоу по всем фото */}
-      {hasLightbox && lightboxPhoto && (
+      {/* Czyszczenie płytek w połysku */}
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">Czyszczenie płytek w połysku</h2>
+        <div className="bg-muted/40 rounded-2xl p-6 md:p-8 shadow max-w-3xl mx-auto text-sm md:text-base">
+          <p className="mb-4">
+            Aby zachować płytki w czystości, regularnie usuwaj drobne zabrudzenia i kurz miękką ściereczką lub mopem. Unikaj silnych detergentów i szorstkich narzędzi, które mogą rysować powierzchnię.
+          </p>
+          <h3 className="font-semibold mb-2">Kroki czyszczenia z CLINEX:</h3>
+          <ol className="list-decimal ml-5 space-y-1">
+            <li><b>Przygotowanie</b>: odkurz/zmieć, by usunąć piasek i kurz.</li>
+            <li><b>Wybór środka CLINEX</b>: np. Clinex DEZOFast lub Clinex W3 Multi (sprawdź dozowanie).</li>
+            <li><b>Roztwór</b>: rozcieńcz w ciepłej wodzie zgodnie z instrukcją.</li>
+            <li><b>Mycie płytek</b>: mikrofibra lub mop; nie zostawiaj nadmiaru wody.</li>
+            <li><b>Spłukiwanie</b>: przetrzyj czystą wodą, by usunąć resztki środka.</li>
+            <li><b>Polerowanie</b>: sucha, czysta mikrofibra — idealny połysk.</li>
+          </ol>
+          <p className="mt-3">Stosowanie się do tych wskazówek zapewni lśniący efekt bez smug.</p>
+        </div>
+      </section>
+
+      {/* Osad z mydła */}
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">Osad z mydła na szybie?</h2>
+        <div className="bg-muted/40 rounded-2xl p-6 md:p-8 shadow max-w-3xl mx-auto text-sm md:text-base">
+          <p className="mb-3">
+            Jeśli osad jest uporczywy, nałóż niewielką ilość żelu do naczyń, odczekaj kilka minut, przetrzyj i spłucz wodą.
+          </p>
+          <p>
+            Zawsze testuj na małym obszarze i unikaj twardych narzędzi oraz agresywnych chemikaliów, które mogą uszkodzić powierzchnię.
+          </p>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="text-center py-12 bg-muted/40">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">Podoba Ci się? Zarezerwuj usługę!</h2>
+        <a
+          href="/rezerwacja"
+          className="inline-block px-6 py-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700"
+        >
+          Zarezerwuj teraz
+        </a>
+      </section>
+
+      {/* Лайтбокс/слайд-шоу */}
+      {opened && photo && (
         <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
           onClick={() => setLightboxIndex(null)}
         >
           <img
-            src={lightboxPhoto.url}
+            src={photo.url}
             alt=""
             className="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl"
           />
@@ -263,6 +249,16 @@ export default function Realizacje() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/** Небольшая карточка-подсказка (визуально как твои .tip-card) */
+function TipCard({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="bg-muted/40 rounded-2xl p-5 shadow">
+      <h3 className="font-semibold text-blue-600 mb-2">{title}</h3>
+      <p className="text-sm text-muted-foreground">{children}</p>
     </div>
   );
 }
