@@ -84,10 +84,15 @@ export default function Realizacje() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* общий Header проекта */}
-      <Header onScrollToBooking={() => setLocation("/")} />
-
-      {/* Hero — как в твоём HTML */}
+      <div
+  aria-hidden={opened}
+  className={
+    "transition-opacity duration-200 " +
+    (opened ? "opacity-0 pointer-events-none" : "opacity-100")
+  }
+>
+  <Header onScrollToBooking={() => setLocation("/")} />
+</div>
       <section className="text-center py-16 bg-muted/40">
         <div className="max-w-3xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
@@ -212,8 +217,8 @@ export default function Realizacje() {
       {/* Лайтбокс/слайд-шоу */}
       {opened && photo && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setLightboxIndex(null)}
+              className="fixed inset-0 z-[10000] bg-black/90 flex items-center justify-center p-4"
+                onClick={() => setLightboxIndex(null)}
         >
           <img
             src={photo.url}
