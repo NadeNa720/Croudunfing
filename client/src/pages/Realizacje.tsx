@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 
 /** 1) Собираем все фото из папки src/assets/realizacje */
-const modules = import.meta.glob(
-  "../assets/realizacje/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}",
-  { eager: true, as: "url" }
-) as Record<string, string>;
+const modules = import.meta.glob("../assets/realizacje/*.{jpg,jpeg,png,webp}", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
 
 type Photo = { url: string; name: string; order: number };
 

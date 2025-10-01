@@ -1,54 +1,50 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "wouter";
-import { 
-  NavigationMenu, 
-  NavigationMenuContent, 
-  NavigationMenuItem, 
-  NavigationMenuLink, 
-  NavigationMenuList, 
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Link, useLocation } from "wouter";
 
-export default function Header({ onScrollToBooking }: HeaderProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const [location, setLocation] = useLocation();
-  const isActive = (href: string) => location === href;
 interface HeaderProps {
   onScrollToBooking: () => void;
 }
 
 export default function Header({ onScrollToBooking }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [location, setLocation] = useLocation();
+  const isActive = (href: string) => location === href;
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    setIsOpen(false); // Close mobile menu
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    setIsOpen(false);
   };
 
   const navigationItems = [
-    { label: "Strona główna", onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
-    { label: "Nasze usługi", onClick: () => scrollToSection('services') },
-    { label: "Jak pracujemy", onClick: () => scrollToSection('video') },
-    { label: "FAQ", onClick: () => scrollToSection('faq') },
-    { label: "Prezent", onClick: () => scrollToSection('gift') },
-    { label: "Kontakt", onClick: () => scrollToSection('kontakt') },
+    { label: "Strona główna", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
+    { label: "Nasze usługi", onClick: () => scrollToSection("services") },
+    { label: "Jak pracujemy", onClick: () => scrollToSection("video") },
+    { label: "FAQ", onClick: () => scrollToSection("faq") },
+    { label: "Prezent", onClick: () => scrollToSection("gift") },
+    { label: "Kontakt", onClick: () => scrollToSection("kontakt") },
   ];
 
   return (
-    <header className="sticky top-0 z-[9999] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+    <header
+      className="sticky top-0 z-[9999] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
+      data-testid="header-navigation"
+    >
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
           <div className="flex items-center">
-            <h1 className="text-xl md:text-2xl font-bold text-primary">
+            <h1 className="text-xl md:text-2xl font-bold text-primary" data-testid="brand-title">
               SprzątanieMieszkań.com
             </h1>
           </div>
@@ -69,7 +65,7 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
                 </NavigationMenuItem>
               ))}
 
-              {/* 👉 ДОБАВЛЕННАЯ ССЫЛКА НА REALIZACJE */}
+              {/* Ссылка на страницу примеров */}
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
@@ -93,6 +89,7 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
               onClick={onScrollToBooking}
               size="default"
               className="bg-primary text-primary-foreground font-semibold"
+              data-testid="button-quick-booking"
             >
               Szybka rezerwacja
             </Button>
@@ -102,7 +99,7 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" data-testid="button-mobile-menu">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
@@ -110,7 +107,6 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
                 <SheetHeader>
                   <SheetTitle className="text-left">Menu</SheetTitle>
                 </SheetHeader>
-
                 <div className="flex flex-col gap-4 mt-6">
                   {navigationItems.map((item, index) => (
                     <Button
@@ -118,12 +114,13 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
                       variant="ghost"
                       className="justify-start"
                       onClick={item.onClick}
+                      data-testid={`mobile-nav-link-${index}`}
                     >
                       {item.label}
                     </Button>
                   ))}
 
-                  {/* 👉 ДОБАВЛЕННАЯ МОБИЛЬНАЯ КНОПКА */}
+                  {/* Мобильная ссылка Realizacje */}
                   <Button
                     variant="ghost"
                     className="justify-start"
@@ -143,6 +140,7 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
                         setIsOpen(false);
                       }}
                       className="w-full"
+                      data-testid="button-mobile-booking"
                     >
                       Szybka rezerwacja
                     </Button>
