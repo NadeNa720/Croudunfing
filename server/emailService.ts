@@ -30,11 +30,11 @@ Data utworzenia: ${booking.createdAt ? new Date(booking.createdAt).toLocaleStrin
   `.trim();
 }
 
-// универсальный отправитель
+
 async function sendMail(to: string, subject: string, html: string, text?: string) {
   const msg = {
     to,
-    from: process.env.MAIL_FROM!, // ВАЖНО: подтверждённый sender/domain
+    from: process.env.MAIL_FROM!,
     subject,
     html,
     text,
@@ -43,7 +43,7 @@ async function sendMail(to: string, subject: string, html: string, text?: string
   console.log('✅ SendGrid OK:', resp[0].statusCode, to);
 }
 
-// ретраи оставляем
+
 async function retryEmailSend(sendFn: () => Promise<void>, maxRetries: number = 3): Promise<void> {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -87,7 +87,7 @@ export async function testEmailConnection(): Promise<boolean> {
       from: process.env.MAIL_FROM!,
       subject: 'SendGrid check (sandbox)',
       html: '<p>OK</p>',
-      mailSettings: { sandboxMode: { enable: true } }, // не отправит реальное письмо
+      mailSettings: { sandboxMode: { enable: true } },
     } as any);
     console.log('✅ SendGrid API reachable');
     return true;
@@ -96,7 +96,7 @@ export async function testEmailConnection(): Promise<boolean> {
     return false;
   }
 }
-// -------- HTML шаблоны --------
+
 function customerHtml(b: Booking) {
   return `
   <div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden">

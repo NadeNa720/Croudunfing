@@ -69,7 +69,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+
       {/* Booking Form Section */}
       <section ref={bookingRef} className="py-16 bg-muted/50">
         <div className="max-w-6xl mx-auto px-4">

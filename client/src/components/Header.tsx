@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "wouter";
 import { 
   NavigationMenu, 
   NavigationMenuContent, 
@@ -12,6 +13,11 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
+export default function Header({ onScrollToBooking }: HeaderProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [location, setLocation] = useLocation();
+  const isActive = (href: string) => location === href;
 interface HeaderProps {
   onScrollToBooking: () => void;
 }
@@ -37,12 +43,12 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-[9999] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b" data-testid="header-navigation">
+    <header className="sticky top-0 z-[9999] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
           <div className="flex items-center">
-            <h1 className="text-xl md:text-2xl font-bold text-primary" data-testid="brand-title">
+            <h1 className="text-xl md:text-2xl font-bold text-primary">
               SprzątanieMieszkań.com
             </h1>
           </div>
@@ -52,26 +58,41 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
             <NavigationMenuList>
               {navigationItems.map((item, index) => (
                 <NavigationMenuItem key={index}>
-                  <NavigationMenuLink 
+                  <NavigationMenuLink
                     className={navigationMenuTriggerStyle()}
                     onClick={item.onClick}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                     data-testid={`nav-link-${index}`}
                   >
                     {item.label}
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
+
+              {/* 👉 ДОБАВЛЕННАЯ ССЫЛКА НА REALIZACJE */}
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href="/realizacje"
+                    className={
+                      navigationMenuTriggerStyle() +
+                      (isActive("/realizacje") ? " text-blue-600" : "")
+                    }
+                    data-testid="nav-link-realizacje"
+                  >
+                    Realizacje
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
           {/* CTA */}
           <div className="hidden md:flex">
-            <Button 
+            <Button
               onClick={onScrollToBooking}
               size="default"
               className="bg-primary text-primary-foreground font-semibold"
-              data-testid="button-quick-booking"
             >
               Szybka rezerwacja
             </Button>
@@ -81,7 +102,7 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" data-testid="button-mobile-menu">
+                <Button variant="ghost" size="icon">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
@@ -89,6 +110,7 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
                 <SheetHeader>
                   <SheetTitle className="text-left">Menu</SheetTitle>
                 </SheetHeader>
+
                 <div className="flex flex-col gap-4 mt-6">
                   {navigationItems.map((item, index) => (
                     <Button
@@ -96,20 +118,31 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
                       variant="ghost"
                       className="justify-start"
                       onClick={item.onClick}
-                      data-testid={`mobile-nav-link-${index}`}
                     >
                       {item.label}
                     </Button>
                   ))}
-                  
+
+                  {/* 👉 ДОБАВЛЕННАЯ МОБИЛЬНАЯ КНОПКА */}
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => {
+                      setLocation("/realizacje");
+                      setIsOpen(false);
+                    }}
+                    data-testid="mobile-nav-link-realizacje"
+                  >
+                    Realizacje
+                  </Button>
+
                   <div className="pt-4 border-t">
-                    <Button 
+                    <Button
                       onClick={() => {
                         onScrollToBooking();
                         setIsOpen(false);
                       }}
                       className="w-full"
-                      data-testid="button-mobile-booking"
                     >
                       Szybka rezerwacja
                     </Button>
