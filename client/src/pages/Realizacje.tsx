@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header";
 import { useLocation } from "wouter";
-import Footer from "@/components/Footer";
 
 const VISIBLE_COUNT = 3;
 
@@ -60,7 +59,7 @@ export default function Realizacje() {
     return () => window.removeEventListener("keydown", onKey);
   }, [lightboxIndex]);
 
-  // Свайпы на мобильных
+  // Свайпы
   useEffect(() => {
     if (lightboxIndex === null) return;
     let startX = 0;
@@ -85,15 +84,18 @@ export default function Realizacje() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header (прячем при открытом лайтбоксе) */}
       <div
-  aria-hidden={opened}
-  className={
-    "transition-opacity duration-200 " +
-    (opened ? "opacity-0 pointer-events-none" : "opacity-100")
-  }
->
-  <Header onScrollToBooking={() => setLocation("/")} />
-</div>
+        aria-hidden={opened}
+        className={
+          "transition-opacity duration-200 " +
+          (opened ? "opacity-0 pointer-events-none" : "opacity-100")
+        }
+      >
+        <Header onScrollToBooking={() => setLocation("/")} />
+      </div>
+
+      {/* Hero */}
       <section className="text-center py-16 bg-muted/40">
         <div className="max-w-3xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
@@ -105,7 +107,7 @@ export default function Realizacje() {
         </div>
       </section>
 
-      {/* Nasze Realizacje — видно только 3 фото, далее лайтбокс */}
+      {/* Realizacje — только 3 фото */}
       <section className="max-w-6xl mx-auto px-4 pt-12 pb-8">
         <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">Nasze Realizacje</h2>
         <p className="text-center text-muted-foreground mb-8">
@@ -135,32 +137,45 @@ export default function Realizacje() {
         </div>
       </section>
 
-      {/* Porady — блоки/карточки, как в твоём дизайне */}
-      <section className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-blue-600 text-center mb-8">Porady Sprzątaniowe</h2>
+      {/* ТОЛЬКО 8 карточек под фотками */}
+      <section className="max-w-6xl mx-auto px-4 pb-12">
+        <h2 className="text-2xl md:text-3xl font-bold text-blue-600 text-center mb-6">
+          Porady Sprzątaniowe
+        </h2>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <TipCard title="Meble na wysoki połysk — Delikatność w działaniu">
-            Meble o wysokim połysku są podatne na zarysowania i ślady, dlatego korzystaj z miękkich materiałów, aby uniknąć uszkodzeń. Wybieraj delikatne środki czyszczące, które nie zawierają silnych substancji ścierających.
+            Meble o wysokim połysku są podatne na zarysowania i ślady, dlatego korzystaj z miękkich
+            materiałów, aby uniknąć uszkodzeń. Wybieraj delikatne środki czyszczące, które nie zawierają
+            silnych substancji ścierających.
           </TipCard>
+
           <TipCard title="Meble na wysoki połysk — Wilgotne, nie mokre">
-            Unikaj używania zbyt wilgotnej ściereczki lub gąbki. Woda może uszkodzić powierzchnię mebli – używaj lekko wilgotnej mikrofibry.
+            Unikaj używania zbyt wilgotnej ściereczki lub gąbki. Woda może uszkodzić powierzchnię mebli –
+            używaj lekko wilgotnej mikrofibry.
           </TipCard>
+
           <TipCard title="Meble na wysoki połysk — Środki do połysku">
-            Wybieraj specjalne środki do mebli o wysokim połysku (spreje/płyny), które czyszczą i jednocześnie zabezpieczają powierzchnię.
+            Wybieraj specjalne środki do mebli o wysokim połysku (spreje/płyny), które czyszczą i
+            jednocześnie zabezpieczają powierzchnię.
           </TipCard>
+
           <TipCard title="Meble na wysoki połysk — Unikaj olejów">
             Środki z olejami mogą zostawiać smugi i zmniejszać połysk. Wybieraj lekkie formuły.
           </TipCard>
+
           <TipCard title="Meble na wysoki połysk — Odpowiednie ściereczki">
             Mikrofibra jest delikatna, nie zostawia śladów i skutecznie zbiera kurz.
           </TipCard>
+
           <TipCard title="Meble na wysoki połysk — Regularne czyszczenie">
             Rutyna zapobiega nagromadzeniom i utracie blasku.
           </TipCard>
+
           <TipCard title="Meble na wysoki połysk — Unikaj słońca">
             Bezpośrednie promienie mogą powodować blaknięcie i mikrouszkodzenia powierzchni.
           </TipCard>
+
           <TipCard title="Meble na wysoki połysk — Uważaj na zanieczyszczenia">
             Kurz działa jak drobne ścierniwo — usuwaj go systematycznie.
           </TipCard>
@@ -171,46 +186,11 @@ export default function Realizacje() {
         </p>
       </section>
 
-      {/* Czyszczenie płytek w połysku */}
-      <section className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">Czyszczenie płytek w połysku</h2>
-        <div className="bg-muted/40 rounded-2xl p-6 md:p-8 shadow max-w-3xl mx-auto text-sm md:text-base">
-          <p className="mb-4">
-            Aby zachować płytki w czystości, regularnie usuwaj drobne zabrudzenia i kurz miękką ściereczką lub mopem. Unikaj silnych detergentów i szorstkich narzędzi, które mogą rysować powierzchnię.
-          </p>
-          <h3 className="font-semibold mb-2">Kroki czyszczenia z CLINEX:</h3>
-          <ol className="list-decimal ml-5 space-y-1">
-            <li><b>Przygotowanie</b>: odkurz/zmieć, by usunąć piasek i kurz.</li>
-            <li><b>Wybór środka CLINEX</b>: np. Clinex DEZOFast lub Clinex W3 Multi (sprawdź dozowanie).</li>
-            <li><b>Roztwór</b>: rozcieńcz w ciepłej wodzie zgodnie z instrukcją.</li>
-            <li><b>Mycie płytek</b>: mikrofibra lub mop; nie zostawiaj nadmiaru wody.</li>
-            <li><b>Spłukiwanie</b>: przetrzyj czystą wodą, by usunąć resztki środka.</li>
-            <li><b>Polerowanie</b>: sucha, czysta mikrofibra — idealny połysk.</li>
-          </ol>
-          <p className="mt-3">Stosowanie się do tych wskazówek zapewni lśniący efekt bez smug.</p>
-        </div>
-      </section>
-
-      {/* Osad z mydła */}
-      <section className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">Osad z mydła na szybie?</h2>
-        <div className="bg-muted/40 rounded-2xl p-6 md:p-8 shadow max-w-3xl mx-auto text-sm md:text-base">
-          <p className="mb-3">
-            Jeśli osad jest uporczywy, nałóż niewielką ilość żelu do naczyń, odczekaj kilka minut, przetrzyj i spłucz wodą.
-          </p>
-          <p>
-            Zawsze testuj na małym obszarze i unikaj twardych narzędzi oraz agresywnych chemikaliów, które mogą uszkodzić powierzchnię.
-          </p>
-        </div>
-      </section>
-
-
-
-      {/* Лайтбокс/слайд-шоу */}
+      {/* Лайтбокс */}
       {opened && photo && (
         <div
-              className="fixed inset-0 z-[10000] bg-black/90 flex items-center justify-center p-4"
-                onClick={() => setLightboxIndex(null)}
+          className="fixed inset-0 z-[10000] bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setLightboxIndex(null)}
         >
           <img
             src={photo.url}
@@ -219,7 +199,7 @@ export default function Realizacje() {
           />
           <button
             aria-label="Prev"
-            className="absolute left-4 top-1/2 -translate-y-1/2 px-3 py-2 rounded-lg bg-white/10 text-white backdrop-blur hover:bg-white/20"
+            className="absolute left-4 top-1/2 -translate-y-1/2 px-3 py-2 rounded-lg bg-white/10 text-white"
             onClick={(e) => {
               e.stopPropagation();
               setLightboxIndex((i) =>
@@ -231,7 +211,7 @@ export default function Realizacje() {
           </button>
           <button
             aria-label="Next"
-            className="absolute right-4 top-1/2 -translate-y-1/2 px-3 py-2 rounded-lg bg-white/10 text-white backdrop-blur hover:bg-white/20"
+            className="absolute right-4 top-1/2 -translate-y-1/2 px-3 py-2 rounded-lg bg-white/10 text-white"
             onClick={(e) => {
               e.stopPropagation();
               setLightboxIndex((i) =>
@@ -241,43 +221,47 @@ export default function Realizacje() {
           >
             →
           </button>
-          <div className="absolute bottom-6 right-6 text-xs md:text-sm text-white/80">
+          <div className="absolute bottom-6 right-6 text-xs text-white/80">
             {lightboxIndex! + 1} / {PHOTOS.length}
           </div>
         </div>
       )}
+
+      {/* Синий футер */}
+      <section className="bg-[#4773c1] text-white py-12 mt-8">
+        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-xl font-semibold mb-3">SprzątanieMieszkań.com</h3>
+            <p>
+              Profesjonalne usługi sprzątania mieszkań w całej Polsce. Zarezerwuj online w 60 sekund.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold mb-3">Kontakt</h4>
+            <ul className="space-y-2 text-white/90">
+              <li>+48 123 456 789</li>
+              <li>kontakt@sprzatanieniemieszkan.com</li>
+              <li>Baśniowa 3/lok 63, 02-349 Warszawa</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold mb-3">Informacje</h4>
+            <ul className="space-y-2 text-white/90">
+              <li>Polityka prywatności</li>
+              <li>Regulamin usług</li>
+              <li>Często zadawane pytania</li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-6xl mx-auto px-4 mt-8 border-t border-white/20 pt-4 text-center text-white/80">
+          © 2025 SprzątanieMieszkań.com. Wszystkie prawa zastrzeżone.
+        </div>
+      </section>
     </div>
   );
 }
-<section className="bg-[#4773c1] text-white py-12 mt-8">
-  <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
-    <div>
-      <h3 className="text-xl font-semibold mb-3">SprzątanieMieszkań.com</h3>
-      <p>Profesjonalne usługi sprzątania mieszkań w całej Polsce. Zarezerwuj online w 60 sekund.</p>
-    </div>
-    <div>
-      <h4 className="text-lg font-semibold mb-3">Kontakt</h4>
-      <ul className="space-y-2 text-white/90">
-        <li>+48 123 456 789</li>
-        <li>kontakt@sprzatanieniemieszkan.com</li>
-        <li>Baśniowa 3/lok 63, 02-349 Warszawa</li>
-      </ul>
-    </div>
-    <div>
-      <h4 className="text-lg font-semibold mb-3">Informacje</h4>
-      <ul className="space-y-2 text-white/90">
-        <li>Polityka prywatności</li>
-        <li>Regulamin usług</li>
-        <li>Często zadawane pytania</li>
-      </ul>
-    </div>
-  </div>
-  <div className="max-w-6xl mx-auto px-4 mt-8 border-t border-white/20 pt-4 text-center text-white/80">
-    © 2025 SprzątanieMieszkań.com. Wszystkie prawa zastrzeżone.
-  </div>
-</section>
 
-/** Небольшая карточка-подсказка (визуально как твои .tip-card) */
+/** Карточка-совет */
 function TipCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="bg-muted/40 rounded-2xl p-5 shadow">

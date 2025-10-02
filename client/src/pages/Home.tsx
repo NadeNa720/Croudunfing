@@ -11,6 +11,8 @@ import GiftSection from '@/components/GiftSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import { CLEANING_SERVICES, type ServiceOption } from '@shared/schema';
+import RealizacjeSection from "@/components/RealizacjeSection";
+
 
 export default function Home() {
   const [selectedService, setSelectedService] = useState<ServiceOption | null>(null);
@@ -69,7 +71,23 @@ export default function Home() {
           </div>
         </div>
       </section>
+    return (
+    <div className="min-h-screen bg-background" data-testid="page-home">
+      <Header onScrollToBooking={handleScrollToBooking} />
+      <HeroSection onScrollToBooking={handleScrollToBooking} />
 
+      {/* ...твои секции: services, booking, why-us, video, faq, gift, kontakt */}
+
+      {/* 👇 Новый блок примеров в самом конце */}
+      <RealizacjeSection />
+
+      <Footer />
+      <BookingSummaryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        bookingData={bookingData}
+      />
+    </div>
       {/* Booking Form Section */}
       <section ref={bookingRef} className="py-16 bg-muted/50">
         <div className="max-w-6xl mx-auto px-4">

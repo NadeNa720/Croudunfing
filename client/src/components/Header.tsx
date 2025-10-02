@@ -34,6 +34,8 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
     { label: "FAQ", onClick: () => scrollToSection('faq') },
     { label: "Prezent", onClick: () => scrollToSection('gift') },
     { label: "Kontakt", onClick: () => scrollToSection('kontakt') },
+   { label: "Realizacje", onClick: () => scrollToSection('Realizacje') },
+
   ];
 
   return (
