@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header";
 import { useLocation } from "wouter";
+import Footer from "@/components/Footer";
 
 const VISIBLE_COUNT = 3;
 
@@ -248,6 +249,33 @@ export default function Realizacje() {
     </div>
   );
 }
+<section className="bg-[#4773c1] text-white py-12 mt-8">
+  <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
+    <div>
+      <h3 className="text-xl font-semibold mb-3">SprzątanieMieszkań.com</h3>
+      <p>Profesjonalne usługi sprzątania mieszkań w całej Polsce. Zarezerwuj online w 60 sekund.</p>
+    </div>
+    <div>
+      <h4 className="text-lg font-semibold mb-3">Kontakt</h4>
+      <ul className="space-y-2 text-white/90">
+        <li>+48 123 456 789</li>
+        <li>kontakt@sprzatanieniemieszkan.com</li>
+        <li>Baśniowa 3/lok 63, 02-349 Warszawa</li>
+      </ul>
+    </div>
+    <div>
+      <h4 className="text-lg font-semibold mb-3">Informacje</h4>
+      <ul className="space-y-2 text-white/90">
+        <li>Polityka prywatności</li>
+        <li>Regulamin usług</li>
+        <li>Często zadawane pytania</li>
+      </ul>
+    </div>
+  </div>
+  <div className="max-w-6xl mx-auto px-4 mt-8 border-t border-white/20 pt-4 text-center text-white/80">
+    © 2025 SprzątanieMieszkań.com. Wszystkie prawa zastrzeżone.
+  </div>
+</section>
 
 /** Небольшая карточка-подсказка (визуально как твои .tip-card) */
 function TipCard({ title, children }: { title: string; children: React.ReactNode }) {

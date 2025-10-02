@@ -11,6 +11,10 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Link, useLocation } from "wouter";
 
+
+
+const [location, setLocation] = useLocation();
+const isActive = (href: string) => location === href;
 interface HeaderProps {
   onScrollToBooking: () => void;
 }
@@ -26,14 +30,14 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
     setIsOpen(false);
   };
 
-  const navigationItems = [
-    { label: "Strona główna", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
-    { label: "Nasze usługi", onClick: () => scrollToSection("services") },
-    { label: "Jak pracujemy", onClick: () => scrollToSection("video") },
-    { label: "FAQ", onClick: () => scrollToSection("faq") },
-    { label: "Prezent", onClick: () => scrollToSection("gift") },
-    { label: "Kontakt", onClick: () => scrollToSection("kontakt") },
-  ];
+const navigationLinks = [
+  { label: "Strona główna", href: "/" },
+  { label: "Nasze usługi", href: "/#services" },
+  { label: "Jak pracujemy", href: "/#video" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Prezent", href: "/#gift" },
+  { label: "Kontakt", href: "/#kontakt" },
+];
 
   return (
     <header
@@ -50,38 +54,42 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
           </div>
 
           {/* Desktop Navigation */}
-          <NavigationMenu className="hidden md:flex">
-            <NavigationMenuList>
-              {navigationItems.map((item, index) => (
-                <NavigationMenuItem key={index}>
-                  <NavigationMenuLink
-                    className={navigationMenuTriggerStyle()}
-                    onClick={item.onClick}
-                    style={{ cursor: "pointer" }}
-                    data-testid={`nav-link-${index}`}
-                  >
-                    {item.label}
+            <NavigationMenu className="hidden md:flex">
+              <NavigationMenuList>
+                {navigationLinks.map((item, i) => (
+                  <NavigationMenuItem key={i}>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href={item.href}
+                        className={
+                          navigationMenuTriggerStyle() +
+                          (isActive(item.href) ? " text-blue-600" : "")
+                        }
+                        data-testid={`nav-link-${i}`}
+                      >
+                        {item.label}
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+
+                {/* ссылка на Realizacje остаётся */}
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/realizacje"
+                      className={
+                        navigationMenuTriggerStyle() +
+                        (isActive("/realizacje") ? " text-blue-600" : "")
+                      }
+                      data-testid="nav-link-realizacje"
+                    >
+                      Realizacje
+                    </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
-              ))}
-
-              {/* Ссылка на страницу примеров */}
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/realizacje"
-                    className={
-                      navigationMenuTriggerStyle() +
-                      (isActive("/realizacje") ? " text-blue-600" : "")
-                    }
-                    data-testid="nav-link-realizacje"
-                  >
-                    Realizacje
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+              </NavigationMenuList>
+            </NavigationMenu>
 
           {/* CTA */}
           <div className="hidden md:flex">
@@ -109,29 +117,23 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
                 </SheetHeader>
                 <div className="flex flex-col gap-4 mt-6">
                   {navigationItems.map((item, index) => (
-                    <Button
-                      key={index}
-                      variant="ghost"
-                      className="justify-start"
-                      onClick={item.onClick}
-                      data-testid={`mobile-nav-link-${index}`}
-                    >
-                      {item.label}
-                    </Button>
-                  ))}
+                        <Button
+                          key={i}
+                          variant="ghost"
+                          className="justify-start"
+                          onClick={() => { setLocation(item.href); setIsOpen(false); }}
+                        >
+                          {item.label}
+                        </Button>
 
-                  {/* Мобильная ссылка Realizacje */}
-                  <Button
-                    variant="ghost"
-                    className="justify-start"
-                    onClick={() => {
-                      setLocation("/realizacje");
-                      setIsOpen(false);
-                    }}
-                    data-testid="mobile-nav-link-realizacje"
-                  >
-                    Realizacje
-                  </Button>
+                        {/* мобильная ссылка на Realizacje */}
+                        <Button
+                          variant="ghost"
+                          className="justify-start"
+                          onClick={() => { setLocation("/realizacje"); setIsOpen(false); }}
+                        >
+                          Realizacje
+                        </Button>
 
                   <div className="pt-4 border-t">
                     <Button
