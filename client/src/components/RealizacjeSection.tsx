@@ -99,5 +99,67 @@ export default function RealizacjeSection() {
         </div>
       )}
     </section>
+
+    <section className="max-w-6xl mx-auto px-4 pb-12">
+  <h2 className="text-2xl md:text-3xl font-bold text-blue-600 text-center mb-6">
+    Porady Sprzątaniowe
+  </h2>
+
+  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <TipCard title="Meble na wysoki połysk — Delikatność w działaniu">
+      Meble o wysokim połysku są podatne na zarysowania i ślady, dlatego korzystaj z miękkich
+      materiałów, aby uniknąć uszkodzeń. Wybieraj delikatne środki czyszczące, które nie zawierają
+      silnych substancji ścierających.
+    </TipCard>
+
+    <TipCard title="Meble na wysoki połysk — Wilgotne, nie mokre">
+      Unikaj używania zbyt wilgotnej ściereczki lub gąbki. Woda może uszkodzić powierzchnię mebli –
+      używaj lekko wilgotnej mikrofibry.
+    </TipCard>
+
+    <TipCard title="Meble na wysoki połysk — Środki do połysku">
+      Wybieraj specjalne środki do mebli o wysokim połysku (spreje/płyny), które czyszczą i
+      jednocześnie zabezpieczają powierzchnię.
+    </TipCard>
+
+    <TipCard title="Meble na wysoki połysk — Unikaj olejów">
+      Środki z olejami mogą zostawiać smugi i zmniejszać połysk. Wybieraj lekkie formuły.
+    </TipCard>
+
+    <TipCard title="Meble na wysoki połysk — Odpowiednie ściereczki">
+      Mikrofibra jest delikatna, nie zostawia śladów i skutecznie zbiera kurz.
+    </TipCard>
+
+    <TipCard title="Meble na wysoki połysk — Regularne czyszczenie">
+      Rutyna zapobiega nagromadzeniom i utracie blasku.
+    </TipCard>
+
+    <TipCard title="Meble na wysoki połysk — Unikaj słońca">
+      Bezpośrednie promienie mogą powodować blaknięcie i mikrouszkodzenia powierzchni.
+    </TipCard>
+
+    <TipCard title="Meble na wysoki połysk — Uważaj na zanieczyszczenia">
+      Kurz działa jak drobne ścierniwo — usuwaj go systematycznie.
+    </TipCard>
+  </div>
+
+  <p className="text-center mt-6 italic text-sm text-muted-foreground">
+    Pamiętaj, że różne rodzaje mebli mogą wymagać różnych podejść — zawsze sprawdzaj zalecenia producenta.
+  </p>
+</section>
+  );
+}
+function TipCard({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-muted/40 rounded-2xl p-5 shadow">
+      <h3 className="font-semibold text-blue-600 mb-2">{title}</h3>
+      <p className="text-sm text-muted-foreground">{children}</p>
+    </div>
   );
 }
