@@ -3,14 +3,13 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { useLocation } from "wouter";
 
 interface HeaderProps {
   onScrollToBooking: () => void;
@@ -18,28 +17,39 @@ interface HeaderProps {
 
 export default function Header({ onScrollToBooking }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [location, setLocation] = useLocation();
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Универсальный переход: если уже на "/", скроллим плавно. Иначе — переходим на /#hash
+  const go = (hash: string) => {
+    const id = hash.trim();
+    if (location === "/") {
+      if (!id) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else {
+      setLocation(id ? `/#${id}` : "/");
     }
-    setIsOpen(false); // Close mobile menu
+    setIsOpen(false);
   };
 
-  const navigationItems = [
-    { label: "Strona główna", onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
-    { label: "Nasze usługi", onClick: () => scrollToSection('services') },
-    { label: "Jak pracujemy", onClick: () => scrollToSection('video') },
-    { label: "FAQ", onClick: () => scrollToSection('faq') },
-    { label: "Prezent", onClick: () => scrollToSection('gift') },
-    { label: "Kontakt", onClick: () => scrollToSection('kontakt') },
-   { label: "Realizacje", onClick: () => scrollToSection('Realizacje') },
-
+  const navigationItems: Array<{ label: string; action: () => void }> = [
+    { label: "Strona główna", action: () => go("") },
+    { label: "Nasze usługi", action: () => go("services") },
+    { label: "Jak pracujemy", action: () => go("video") },
+    { label: "FAQ", action: () => go("faq") },
+    { label: "Prezent", action: () => go("gift") },
+    { label: "Kontakt", action: () => go("kontakt") },
+    // ↓ ВАЖНО: id именно "realizacje" (нижний регистр), как в секции на главной
+    { label: "Realizacje", action: () => go("realizacje") },
   ];
 
   return (
-    <header className="sticky top-0 z-[9999] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b" data-testid="header-navigation">
+    <header
+      className="sticky top-0 z-[9999] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
+      data-testid="header-navigation"
+    >
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
@@ -55,12 +65,17 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
               {navigationItems.map((item, index) => (
                 <NavigationMenuItem key={index}>
                   <NavigationMenuLink
+                    asChild
                     className={navigationMenuTriggerStyle()}
-                    onClick={item.onClick}
-                    style={{ cursor: 'pointer' }}
                     data-testid={`nav-link-${index}`}
                   >
-                    {item.label}
+                    <button
+                      type="button"
+                      onClick={item.action}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {item.label}
+                    </button>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
@@ -97,7 +112,7 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
                       key={index}
                       variant="ghost"
                       className="justify-start"
-                      onClick={item.onClick}
+                      onClick={item.action}
                       data-testid={`mobile-nav-link-${index}`}
                     >
                       {item.label}

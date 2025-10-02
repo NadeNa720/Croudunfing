@@ -1,18 +1,17 @@
-import { useState, useRef } from 'react';
-import Header from '@/components/Header';
-import HeroSection from '@/components/HeroSection';
-import ServiceCard from '@/components/ServiceCard';
-import BookingForm from '@/components/BookingForm';
-import BookingSummaryModal from '@/components/BookingSummaryModal';
-import WhyUsSection from '@/components/WhyUsSection';
-import VideoSection from '@/components/VideoSection';
-import FAQ from '@/components/FAQ';
-import GiftSection from '@/components/GiftSection';
-import ContactSection from '@/components/ContactSection';
-import Footer from '@/components/Footer';
-import { CLEANING_SERVICES, type ServiceOption } from '@shared/schema';
+import { useEffect, useRef, useState } from "react";
+import Header from "@/components/Header";
+import HeroSection from "@/components/HeroSection";
+import ServiceCard from "@/components/ServiceCard";
+import BookingForm from "@/components/BookingForm";
+import BookingSummaryModal from "@/components/BookingSummaryModal";
+import WhyUsSection from "@/components/WhyUsSection";
+import VideoSection from "@/components/VideoSection";
+import FAQ from "@/components/FAQ";
+import GiftSection from "@/components/GiftSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
 import RealizacjeSection from "@/components/RealizacjeSection";
-
+import { CLEANING_SERVICES, type ServiceOption } from "@shared/schema";
 
 export default function Home() {
   const [selectedService, setSelectedService] = useState<ServiceOption | null>(null);
@@ -22,33 +21,44 @@ export default function Home() {
 
   const handleServiceSelect = (service: ServiceOption) => {
     setSelectedService(service);
-    // Scroll to booking form
+    // после выбора услуги — пролистываем к форме
     setTimeout(() => {
-      bookingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
   };
 
   const handleBookingSubmit = (bookingId: string) => {
-    console.log('Booking created with ID:', bookingId);
     setBookingData({ id: bookingId });
     setIsModalOpen(true);
   };
 
   const handleScrollToBooking = () => {
     if (!selectedService) {
-      // If no service selected, scroll to services section
-      document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
     } else {
-      // If service selected, scroll to booking form
-      bookingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  // Плавный скролл при переходе с /#hash
+  useEffect(() => {
+    const scrollToHash = () => {
+      const id = window.location.hash.replace("#", "");
+      if (!id) return;
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    };
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background" data-testid="page-home">
       <Header onScrollToBooking={handleScrollToBooking} />
       <HeroSection onScrollToBooking={handleScrollToBooking} />
-      
+
       {/* Services Section */}
       <section id="services" className="py-16">
         <div className="max-w-6xl mx-auto px-4">
@@ -58,7 +68,7 @@ export default function Home() {
               Wybierz spośród naszych profesjonalnych usług sprzątania dostosowanych do Twoich potrzeb
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {CLEANING_SERVICES.map((service) => (
               <ServiceCard
@@ -71,40 +81,25 @@ export default function Home() {
           </div>
         </div>
       </section>
-    return (
-    <div className="min-h-screen bg-background" data-testid="page-home">
-      <Header onScrollToBooking={handleScrollToBooking} />
-      <HeroSection onScrollToBooking={handleScrollToBooking} />
 
-      {/* ...твои секции: services, booking, why-us, video, faq, gift, kontakt */}
+      {/* Booking Form Section */}
+      <section id="booking" ref={bookingRef} className="py-16 bg-muted/50">
+        <div className="max-w-6xl mx-auto px-4">
+          <BookingForm selectedService={selectedService} onSubmit={handleBookingSubmit} />
+        </div>
+      </section>
 
-      {/* 👇 Новый блок примеров в самом конце */}
+      <WhyUsSection />
+      <section id="video"><VideoSection /></section>
+      <section id="faq"><FAQ /></section>
+      <section id="gift"><GiftSection /></section>
+      <section id="kontakt"><ContactSection /></section>
+
+      {/* Примеры (галерея) в самом низу главной */}
       <RealizacjeSection />
 
       <Footer />
-      <BookingSummaryModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        bookingData={bookingData}
-      />
-    </div>
-      {/* Booking Form Section */}
-      <section ref={bookingRef} className="py-16 bg-muted/50">
-        <div className="max-w-6xl mx-auto px-4">
-          <BookingForm
-            selectedService={selectedService}
-            onSubmit={handleBookingSubmit}
-          />
-        </div>
-      </section>
-      
-      <WhyUsSection />
-      <VideoSection />
-      <FAQ />
-      <GiftSection />
-      <ContactSection />
-      <Footer />
-      
+
       <BookingSummaryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
