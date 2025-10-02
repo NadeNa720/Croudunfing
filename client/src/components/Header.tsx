@@ -11,10 +11,6 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Link, useLocation } from "wouter";
 
-
-
-const [location, setLocation] = useLocation();
-const isActive = (href: string) => location === href;
 interface HeaderProps {
   onScrollToBooking: () => void;
 }
@@ -24,20 +20,14 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
   const [location, setLocation] = useLocation();
   const isActive = (href: string) => location === href;
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    setIsOpen(false);
-  };
-
-const navigationLinks = [
-  { label: "Strona główna", href: "/" },
-  { label: "Nasze usługi", href: "/#services" },
-  { label: "Jak pracujemy", href: "/#video" },
-  { label: "FAQ", href: "/#faq" },
-  { label: "Prezent", href: "/#gift" },
-  { label: "Kontakt", href: "/#kontakt" },
-];
+  const nav = [
+    { label: "Strona główna", href: "/" },
+    { label: "Nasze usługi", href: "/#services" },
+    { label: "Jak pracujemy", href: "/#video" },
+    { label: "FAQ", href: "/#faq" },
+    { label: "Prezent", href: "/#gift" },
+    { label: "Kontakt", href: "/#kontakt" },
+  ];
 
   return (
     <header
@@ -46,55 +36,50 @@ const navigationLinks = [
     >
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Brand */}
           <div className="flex items-center">
             <h1 className="text-xl md:text-2xl font-bold text-primary" data-testid="brand-title">
               SprzątanieMieszkań.com
             </h1>
           </div>
 
-          {/* Desktop Navigation */}
-            <NavigationMenu className="hidden md:flex">
-              <NavigationMenuList>
-                {navigationLinks.map((item, i) => (
-                  <NavigationMenuItem key={i}>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href={item.href}
-                        className={
-                          navigationMenuTriggerStyle() +
-                          (isActive(item.href) ? " text-blue-600" : "")
-                        }
-                        data-testid={`nav-link-${i}`}
-                      >
-                        {item.label}
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ))}
-
-                {/* ссылка на Realizacje остаётся */}
-                <NavigationMenuItem>
+          {/* Desktop */}
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              {nav.map((item, i) => (
+                <NavigationMenuItem key={i}>
                   <NavigationMenuLink asChild>
                     <Link
-                      href="/realizacje"
+                      href={item.href}
                       className={
-                        navigationMenuTriggerStyle() +
-                        (isActive("/realizacje") ? " text-blue-600" : "")
+                        navigationMenuTriggerStyle() + (isActive(item.href) ? " text-blue-600" : "")
                       }
-                      data-testid="nav-link-realizacje"
+                      data-testid={`nav-link-${i}`}
                     >
-                      Realizacje
+                      {item.label}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+              ))}
 
-          {/* CTA */}
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href="/realizacje"
+                    className={
+                      navigationMenuTriggerStyle() + (isActive("/realizacje") ? " text-blue-600" : "")
+                    }
+                    data-testid="nav-link-realizacje"
+                  >
+                    Realizacje
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
           <div className="hidden md:flex">
             <Button
-              onClick={onScrollToBooking}
+              onClick={() => setLocation("/#booking")}
               size="default"
               className="bg-primary text-primary-foreground font-semibold"
               data-testid="button-quick-booking"
@@ -103,7 +88,7 @@ const navigationLinks = [
             </Button>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile */}
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
@@ -115,30 +100,39 @@ const navigationLinks = [
                 <SheetHeader>
                   <SheetTitle className="text-left">Menu</SheetTitle>
                 </SheetHeader>
-                <div className="flex flex-col gap-4 mt-6">
-                  {navigationItems.map((item, index) => (
-                        <Button
-                          key={i}
-                          variant="ghost"
-                          className="justify-start"
-                          onClick={() => { setLocation(item.href); setIsOpen(false); }}
-                        >
-                          {item.label}
-                        </Button>
 
-                        {/* мобильная ссылка на Realizacje */}
-                        <Button
-                          variant="ghost"
-                          className="justify-start"
-                          onClick={() => { setLocation("/realizacje"); setIsOpen(false); }}
-                        >
-                          Realizacje
-                        </Button>
+                <div className="flex flex-col gap-4 mt-6">
+                  {nav.map((item, i) => (
+                    <Button
+                      key={i}
+                      variant="ghost"
+                      className="justify-start"
+                      onClick={() => {
+                        setLocation(item.href);
+                        setIsOpen(false);
+                      }}
+                      data-testid={`mobile-nav-link-${i}`}
+                    >
+                      {item.label}
+                    </Button>
+                  ))}
+
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => {
+                      setLocation("/realizacje");
+                      setIsOpen(false);
+                    }}
+                    data-testid="mobile-nav-link-realizacje"
+                  >
+                    Realizacje
+                  </Button>
 
                   <div className="pt-4 border-t">
                     <Button
                       onClick={() => {
-                        onScrollToBooking();
+                        setLocation("/#booking");
                         setIsOpen(false);
                       }}
                       className="w-full"
