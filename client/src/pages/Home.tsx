@@ -12,6 +12,7 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import RealizacjeSection from "@/components/RealizacjeSection";
 import { CLEANING_SERVICES, type ServiceOption } from "@shared/schema";
+import ReviewsSection from "@/components/ReviewsSection";
 
 export default function Home() {
   const [selectedService, setSelectedService] = useState<ServiceOption | null>(null);
@@ -94,7 +95,9 @@ export default function Home() {
       <section id="faq"><FAQ /></section>
       <section id="gift"><GiftSection /></section>
       <section id="kontakt"><ContactSection /></section>
-
+<WhyUsSection />
+<ReviewsSection />   {/* ← тут появятся кнопки на Google Maps */}
+<VideoSection />
       {/* Примеры (галерея) в самом низу главной */}
       <RealizacjeSection />
 
