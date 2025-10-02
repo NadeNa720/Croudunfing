@@ -158,25 +158,7 @@ export default function ContactSection() {
           </Card>
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-12">
-          <div className="bg-primary/5 rounded-2xl p-8 max-w-3xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4">Gotowy na profesjonalne sprzątanie?</h3>
-            <p className="text-muted-foreground mb-6">
-              Skontaktuj się z nami już dziś i ciesz się czystym domem bez wysiłku. 
-              Oferujemy bezpłatną wycenę i elastyczne terminy.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild data-testid="button-contact-call-now">
-                <a href="tel:+48123456789">
-                  <Phone className="mr-2 h-5 w-5" />
-                  Zadzwoń teraz
-                </a>
-              </Button>
-              <Button size="lg" variant="outline" asChild data-testid="button-contact-book-online">
-                <a href="#services">
-                  Zarezerwuj online
-                </a>
+
               </Button>
             </div>
           </div>
