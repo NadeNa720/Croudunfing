@@ -25,7 +25,7 @@ export default function ContactSection() {
               <h3 className="font-semibold mb-2">Telefon</h3>
               <p className="text-muted-foreground mb-3">Zadzwoń do nas</p>
               <Button variant="outline" size="sm" asChild data-testid="button-call-phone">
-                <a href="tel:+48123456789">+48 123 456 789</a>
+                <a href="tel:+48512266221">+48 512 266 221</a>
               </Button>
             </CardContent>
           </Card>
