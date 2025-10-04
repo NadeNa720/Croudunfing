@@ -53,7 +53,7 @@ export default function ContactSection() {
               <h3 className="font-semibold mb-2">WhatsApp</h3>
               <p className="text-muted-foreground mb-3">Szybki kontakt</p>
               <Button variant="outline" size="sm" asChild data-testid="button-whatsapp">
-                <a href="https://wa.me/48123456789" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/48512266221" target="_blank" rel="noopener noreferrer">
                   Czat
                 </a>
               </Button>
@@ -70,7 +70,7 @@ export default function ContactSection() {
               <p className="text-muted-foreground mb-3">Warszawa i okolice</p>
               <Button variant="outline" size="sm" asChild data-testid="button-view-areas">
                 <a
-                  href="https://www.google.com/maps/place/Baśniowa+3,+02-349+Warszawa,+Poland"
+                  href="https://maps.app.goo.gl/p8wKyzHUjuMkuyWJ6"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -144,7 +144,7 @@ export default function ContactSection() {
           </Card>
         </div>
 
-        {/* <-- CTA-блок удалён --> */}
+
       </div>
     </section>
   );
