@@ -200,7 +200,7 @@ export default function BookingSummaryModal({ isOpen, onClose, bookingData }: Bo
                 <p>• Otrzymasz potwierdzenie rezerwacji na podany adres e-mail</p>
                 <p>• Nasz zespół skontaktuje się z Tobą przed wizytą</p>
                 <p>• W dniu wizyty nasi specjaliści przyjedą punktualnie</p>
-                <p>• W przypadku pytań, skontaktuj się z nami: +48 123 456 789</p>
+                <p>• W przypadku pytań, skontaktuj się z nami: +48 512 266 221</p>
               </div>
             </CardContent>
           </Card>
