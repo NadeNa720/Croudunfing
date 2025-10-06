@@ -357,7 +357,7 @@ export default function BookingForm({ selectedService, onSubmit }: BookingFormPr
                   id="phone"
                   value={formData.phone}
                   onChange={(e) => updateField('phone', e.target.value)}
-                  placeholder="+48 123 456 789"
+                  placeholder="+48 512 266 221"
                   data-testid="input-phone"
                 />
                 {errors.phone && <p className="text-sm text-destructive mt-1">{errors.phone}</p>}
