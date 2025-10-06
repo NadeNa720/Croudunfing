@@ -1,164 +1,220 @@
-function renderCustomerHtml(b: Booking) {
-  const price = (b.price ?? "-").toString();
-  const duration = (b.duration ?? "-").toString();
+import type { Express } from "express";
+import { createServer, type Server } from "http";
+import { storage } from "./storage";
+import { insertBookingSchema, CLEANING_SERVICES } from "@shared/schema";
+import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
+import { sendCustomerConfirmation, sendBusinessNotification, testEmailConnection } from "./emailService";
+import fs from "fs";
+import path from "path";
 
-  return `
-<!doctype html>
-<html lang="pl">
-<head>
-  <meta charset="utf-8">
-  <meta name="x-apple-disable-message-reformatting">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Potwierdzenie rezerwacji</title>
-</head>
-<body style="margin:0;padding:0;background:#f6f7fb;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1f2937;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f6f7fb;">
-    <tr>
-      <td align="center" style="padding:24px;">
-        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="width:600px;max-width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);">
-          <!-- Header -->
-          <tr>
-            <td style="background:#3b5bdb;color:#ffffff;padding:28px 32px;text-align:center;">
-              <div style="font-size:28px;line-height:1.1;font-weight:800;margin-bottom:4px;">SprzątanieMieszkań.com</div>
-              <div style="opacity:.9;font-size:13px;">Potwierdzenie rezerwacji</div>
-            </td>
-          </tr>
+// Helper function to ensure static assets are available in production
+function ensureStaticAssets(): boolean {
+  if (process.env.NODE_ENV === "production") {
+    const distPublic = path.resolve(process.cwd(), "dist", "public");
+    const serverPublic = path.resolve(process.cwd(), "server", "public");
 
-          <!-- Success bar -->
-          <tr>
-            <td style="padding:20px 24px 0;">
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#e6f9ec;border:1px solid #b7efc5;border-radius:10px;">
-                <tr>
-                  <td style="padding:14px 16px;font-size:14px;color:#14532d;">
-                    ✅ <strong>Dziękujemy! Twoja rezerwacja została przyjęta.</strong><br/>
-                    <span style="opacity:.9;">Numer rezerwacji: <strong>#${(b.id || "").slice(0,8)}</strong></span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+    if (fs.existsSync(distPublic)) {
+      // Create server/public if it doesn't exist
+      if (!fs.existsSync(serverPublic)) {
+        fs.mkdirSync(serverPublic, { recursive: true });
+      }
 
-          <!-- Details -->
-          <tr>
-            <td style="padding:16px 24px 8px;">
-              <div style="font-size:16px;font-weight:700;margin:12px 0 6px;">Szczegóły usługi</div>
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:separate;border-spacing:0 8px;">
-                ${row("Usługa:", escapeHtml(b.service))}
-                ${row("Metraż:", escapeHtml(b.area ? "do " + b.area.replace(/\D/g,"") + " m²" : "—"))}
-                ${row("Mycie okien:", labelWindow(b.windowOption))}
-                ${row("Data i godzina:", `${escapeHtml(b.date || "-")}, ${escapeHtml(b.time || "-")}`)}
-                ${row("Czas trwania:", humanDuration(duration))}
-                ${row("Cena całkowita:", `<span style="display:inline-block;font-weight:800;font-size:22px;color:#15803d;">${formatPLN(price)}</span>`)}
-                ${row("Adres:", joinAddr(b))}
-                ${b.notes ? row("Uwagi:", escapeHtml(b.notes)) : ""}
-              </table>
-            </td>
-          </tr>
+      // Copy assets from dist/public to server/public
+      try {
+        fs.cpSync(distPublic, serverPublic, { recursive: true });
+        console.log('✅ Static assets copied to server/public for production serving');
 
-          <!-- Next -->
-          <tr>
-            <td style="padding:8px 24px 8px;">
-              <div style="font-size:16px;font-weight:700;margin:12px 0 6px;">Co dalej?</div>
-              <ul style="margin:6px 0 0 18px;padding:0;font-size:14px;color:#374151;">
-                <li>Skontaktujemy się dzień przed wizytą, aby potwierdzić szczegóły.</li>
-                <li>Nasz zespół przyjedzie punktualnie w wyznaczonym terminie.</li>
-                <li>Płatność po wykonaniu usługi (gotówka lub przelew).</li>
-              </ul>
-            </td>
-          </tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="padding:18px 24px 28px;border-top:1px solid #eef2f7;text-align:center;font-size:13px;color:#6b7280;">
-              <div style="margin-bottom:6px;">
-                <a href="tel:+48123456789" style="color:#3b5bdb;text-decoration:none;">+48 123 456 789</a>
-                ·
-                <a href="mailto:kontakt@sprzataniemieszkan.pl" style="color:#3b5bdb;text-decoration:none;">kontakt@sprzataniemieszkan.pl</a>
-              </div>
-              <div>SprzątanieMieszkań.com — Profesjonalne sprzątanie mieszkań w Warszawie</div>
-            </td>
-          </tr>
-        </table>
-        <div style="font-size:11px;color:#9aa3af;margin-top:10px;">Jeśli to nie Twoja rezerwacja, zignoruj tę wiadomość.</div>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
-`;
-}
-
-// — такой же визуальный шаблон для письма админу —
-function renderAdminHtml(b: Booking) {
-  return `
-<!doctype html>
-<html lang="pl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f6f7fb;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1f2937;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f6f7fb;">
-    <tr>
-      <td align="center" style="padding:24px;">
-        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="width:600px;max-width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);">
-          <tr><td style="background:#3b5bdb;color:#fff;padding:24px 28px;text-align:center;">
-            <div style="font-size:22px;font-weight:800;">Nowa rezerwacja</div>
-            <div style="opacity:.9;font-size:13px;">${escapeHtml(b.service)} — ${escapeHtml(b.date||"-")} ${escapeHtml(b.time||"")}</div>
-          </td></tr>
-          <tr><td style="padding:16px 24px 8px;">
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:separate;border-spacing:0 8px;">
-              ${row("Usługa:", escapeHtml(b.service))}
-              ${row("Obszar:", escapeHtml(b.area))}
-              ${row("Okna:", labelWindow(b.windowOption))}
-              ${row("Adres:", joinAddr(b))}
-              ${row("Cena / czas:", `${formatPLN(b.price ?? "-")} · ${humanDuration(String(b.duration ?? "-"))}`)}
-              ${row("Klient:", `${escapeHtml([b.firstName,b.lastName].filter(Boolean).join(" ")||"-")} (${escapeHtml(b.email||"-")}${b.phone? ", "+escapeHtml(b.phone):""})`)}
-              ${b.notes ? row("Uwagi:", escapeHtml(b.notes)) : ""}
-              ${row("ID:", escapeHtml(b.id || "-"))}
-              ${row("Utworzono:", escapeHtml(b.createdAt || new Date().toISOString()))}
-            </table>
-          </td></tr>
-          <tr><td style="padding:18px 24px 24px;border-top:1px solid #eef2f7;text-align:center;font-size:13px;color:#6b7280;">
-            Panel: przekaż zlecenie brygadzie i potwierdź dzień wcześniej.
-          </td></tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
-`;
-}
-
-/* === мини-утилиты для шаблонов (оставь внизу файла) === */
-function escapeHtml(v?: string) {
-  return (v ?? "").toString().replace(/[<>&"]/g, s => ({ "<":"&lt;","&":"&amp;",">":"&gt;", "\"":"&quot;" }[s]!));
-}
-function formatPLN(v: string | number) {
-  const n = Number(String(v).replace(/[^\d.,-]/g,"").replace(",","."));
-  if (isNaN(n)) return escapeHtml(String(v));
-  return new Intl.NumberFormat("pl-PL",{ style:"currency", currency:"PLN" }).format(n);
-}
-function labelWindow(opt?: "none"|"standard"|"nonStandard") {
-  if (opt === "standard") return "Standardowe okna";
-  if (opt === "nonStandard") return "Niestandardowe okna";
-  return "—";
-}
-function humanDuration(v: string) {
-  // принимает "8 godz. 30 min" | "510" | "3h"
-  const num = Number(v);
-  if (!isNaN(num)) {
-    const h = Math.floor(num/60), m = num%60;
-    return `${h} godz.${m? " " + m + " min" : ""}`;
+        // Validate that index.html exists after copy
+        const indexPath = path.resolve(serverPublic, "index.html");
+        if (fs.existsSync(indexPath)) {
+          console.log('✅ Static assets validation passed - index.html found');
+          return true;
+        } else {
+          console.error('❌ Static assets validation failed - index.html missing after copy');
+          return false;
+        }
+      } catch (error) {
+        console.error('❌ Failed to copy static assets:', error);
+        return false;
+      }
+    } else {
+      console.error('❌ dist/public not found - make sure to run build before starting in production');
+      return false;
+    }
   }
-  return escapeHtml(v);
+  return true; // In development, assume assets are served by Vite
 }
-function joinAddr(b: Booking) {
-  const a = [b.address, b.city, b.postalCode].filter(Boolean).map(escapeHtml);
-  return a.length ? a.join(", ") : "—";
-}
-function row(label: string, value?: string) {
-  return `
-  <tr>
-    <td style="width:180px;vertical-align:top;padding:10px 12px;background:#f9fafb;border:1px solid #eef2f7;border-right:none;border-radius:8px 0 0 8px;font-size:14px;color:#6b7280;">${label}</td>
-    <td style="vertical-align:top;padding:10px 12px;background:#ffffff;border:1px solid #eef2f7;border-left:none;border-radius:0 8px 8px 0;font-size:14px;color:#111827;">${value ?? "—"}</td>
-  </tr>`;
+
+export async function registerRoutes(app: Express): Promise<Server> {
+  // Ensure static assets are available for production deployment
+  const staticAssetsReady = ensureStaticAssets();
+
+  // If static assets are not ready in production, add fallback route (but preserve API and health endpoints)
+  if (process.env.NODE_ENV === "production" && !staticAssetsReady) {
+    app.get(/^\/(?!api|health)(.*)/, (req, res) => {
+      res.status(503).json({
+        error: "Service temporarily unavailable",
+        message: "Static assets not found. Please ensure the application was built before deployment.",
+        timestamp: new Date().toISOString()
+      });
+    });
+    console.error('🚨 Static assets fallback route registered - frontend will not work until assets are available');
+    console.log('ℹ️ API and health endpoints remain accessible during asset outage');
+  }
+
+  // Test email connection on startup (with timeout to prevent deployment hanging)
+  console.log('🔍 Testing SMTP email connection...');
+  try {
+    const emailTestPromise = testEmailConnection();
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('SMTP test timeout')), 5000)
+    );
+
+    await Promise.race([emailTestPromise, timeoutPromise]);
+  } catch (error) {
+    console.warn('⚠️ SMTP test failed or timed out, continuing with startup:', error instanceof Error ? error.message : String(error));
+  }
+
+  // Health check endpoint for deployment verification
+  app.get("/health", (req, res) => {
+    res.status(200).json({
+      status: "healthy",
+      timestamp: new Date().toISOString(),
+      service: "SprzątanieMieszkań.com"
+    });
+  });
+
+  // Booking endpoints
+  app.post("/api/bookings", async (req, res) => {
+    try {
+      const bookingData = insertBookingSchema.parse(req.body);
+
+      // Validate that the service and area combination exists and get pricing
+      const service = CLEANING_SERVICES.find(s => s.id === bookingData.service.split(' - ')[0]);
+      if (!service) {
+        return res.status(400).json({ error: "Invalid service selected" });
+      }
+
+      const area = bookingData.area;
+      const serviceArea = service.areas[area];
+      if (!serviceArea) {
+        return res.status(400).json({ error: "Invalid area for selected service" });
+      }
+
+      // Calculate price and duration based on window option
+      let finalPrice = serviceArea.price;
+      let finalDuration = serviceArea.duration;
+
+      if (bookingData.windowOption && bookingData.windowOption !== 'none' && serviceArea.options) {
+        if (bookingData.windowOption === 'standard' && serviceArea.options.standard) {
+          finalPrice = serviceArea.options.standard.price;
+          finalDuration = serviceArea.options.standard.duration;
+        } else if (bookingData.windowOption === 'nonStandard' && serviceArea.options.nonStandard) {
+          finalPrice = serviceArea.options.nonStandard.price;
+          finalDuration = serviceArea.options.nonStandard.duration;
+        }
+      }
+
+      // Create booking with calculated price and duration
+      const booking = await storage.createBooking({
+        ...bookingData,
+        price: finalPrice.toString(),
+        duration: finalDuration
+      });
+
+      // Send email notifications
+      try {
+        // Send confirmation to customer
+        await sendCustomerConfirmation(booking);
+        console.log(`✅ Customer confirmation email sent to ${booking.email}`);
+
+        // Send notification to business
+        await sendBusinessNotification(booking);
+        console.log(`✅ Business notification email sent for booking #${booking.id.substring(0, 8)}`);
+
+        res.status(201).json({
+          ...booking,
+          message: "Dziękujemy! Twoja rezerwacja została przyjęta. Wysłaliśmy potwierdzenie na Twój adres e-mail."
+        });
+      } catch (emailError) {
+        console.error("Email sending failed:", emailError);
+        // Still return successful booking but with email error message
+        res.status(201).json({
+          ...booking,
+          message: "Rezerwacja została przyjęta, jednak wystąpił problem z wysłaniem e-maila potwierdzającego. Skontaktujemy się z Tobą telefonicznie.",
+          emailError: true
+        });
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const validationError = fromZodError(error);
+        return res.status(400).json({ error: validationError.message });
+      }
+      console.error("Error creating booking:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/bookings/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // First try exact match
+      let booking = await storage.getBooking(id);
+
+      // If not found and the ID looks like a shortened UUID (8 chars), try to find by prefix
+      // Note: This is kept for testing/development but should be disabled in production for security
+      if (!booking && id.length === 8) {
+        const allBookings = await storage.getAllBookings();
+        booking = allBookings.find(b => b.id.startsWith(id));
+      }
+
+      if (!booking) {
+        return res.status(404).json({ error: "Booking not found" });
+      }
+
+      // In production, this endpoint should be protected and require authentication
+      // For the demo/frontend integration, returning full data is acceptable
+      // TODO: Add authentication and proper access control
+      res.json(booking);
+    } catch (error) {
+      console.error("Error getting booking:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Admin endpoint - should be protected with authentication in production
+  app.get("/api/bookings", async (req, res) => {
+    try {
+      // TODO: Add authentication middleware for admin access
+      // For now, return minimal data without full PII exposure
+      const bookings = await storage.getAllBookings();
+      const sanitizedBookings = bookings.map(booking => ({
+        id: booking.id,
+        service: booking.service,
+        area: booking.area,
+        windowOption: booking.windowOption,
+        date: booking.date,
+        time: booking.time,
+        price: booking.price,
+        duration: booking.duration,
+        createdAt: booking.createdAt
+        // PII fields (firstName, lastName, phone, email, address) excluded for security
+      }));
+      res.json(sanitizedBookings);
+    } catch (error) {
+      console.error("Error getting bookings:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Service information endpoint
+  app.get("/api/services", async (req, res) => {
+    res.json(CLEANING_SERVICES);
+  });
+
+  const httpServer = createServer(app);
+
+  return httpServer;
 }
