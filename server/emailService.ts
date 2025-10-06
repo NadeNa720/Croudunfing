@@ -192,7 +192,7 @@ function renderCustomerHtml(b: Booking) {
           <tr>
             <td style="padding:18px 24px 28px;border-top:1px solid #eef2f7;text-align:center;font-size:13px;color:#6b7280;">
               <div style="margin-bottom:6px;">
-                <a href="tel:+48123456789" style="color:#3b5bdb;text-decoration:none;">+48 123 456 789</a>
+                <a href="tel:+48123456789" style="color:#3b5bdb;text-decoration:none;">+48 512 266 221</a>
                 ·
                 <a href="mailto:kontakt@sprzataniemieszkan.pl" style="color:#3b5bdb;text-decoration:none;">kontakt@sprzataniemieszkan.pl</a>
               </div>
