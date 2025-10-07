@@ -26,7 +26,6 @@ export default function RealizacjeSection() {
   const opened = index !== null;
   const photo = useMemo(() => (index !== null ? PHOTOS[index] : null), [index]);
 
-  // блокируем прокрутку фона при открытом лайтбоксе
   useEffect(() => {
     if (!opened) return;
     const prev = document.body.style.overflow;
@@ -36,7 +35,7 @@ export default function RealizacjeSection() {
     };
   }, [opened]);
 
-  // стрелки клавиатуры
+
   useEffect(() => {
     if (index === null) return;
     const onKey = (e: KeyboardEvent) => {
@@ -50,7 +49,6 @@ export default function RealizacjeSection() {
 
   return (
     <>
-      {/* Галерея: видно только 3 фото */}
       <section id="realizacje" className="max-w-6xl mx-auto px-4 pt-12 pb-8">
         <h2 className="text-3xl font-bold text-blue-600 text-center mb-6">Nasze realizacje</h2>
         <p className="text-center text-muted-foreground mb-8">
@@ -80,7 +78,7 @@ export default function RealizacjeSection() {
         </div>
       </section>
 
-      {/* 8 карточек под фотками */}
+      
       <section className="max-w-6xl mx-auto px-4 pb-12">
         <h2 className="text-2xl md:text-3xl font-bold text-blue-600 text-center mb-6">
           Porady Sprzątaniowe
@@ -129,7 +127,7 @@ export default function RealizacjeSection() {
         </p>
       </section>
 
-      {/* Лайтбокс */}
+
       {opened && photo && (
         <div
           className="fixed inset-0 z-[10000] bg-black/90 flex items-center justify-center p-4"

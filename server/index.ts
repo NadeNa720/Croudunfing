@@ -6,7 +6,7 @@ const app = express();
 
 // Add Content Security Policy headers to allow React/Vite to function on Render
 app.use((req, res, next) => {
-  // Минимально-необходимая CSP для твоего приложения + YouTube iframe
+
   res.setHeader(
     "Content-Security-Policy",
     [

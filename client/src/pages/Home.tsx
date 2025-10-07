@@ -22,7 +22,6 @@ export default function Home() {
 
   const handleServiceSelect = (service: ServiceOption) => {
     setSelectedService(service);
-    // после выбора услуги — пролистываем к форме
     setTimeout(() => {
       bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
@@ -41,7 +40,6 @@ export default function Home() {
     }
   };
 
-  // Плавный скролл при переходе с /#hash
   useEffect(() => {
     const scrollToHash = () => {
       const id = window.location.hash.replace("#", "");
@@ -96,9 +94,8 @@ export default function Home() {
       <section id="gift"><GiftSection /></section>
       <section id="kontakt"><ContactSection /></section>
 <WhyUsSection />
-<ReviewsSection />   {/* ← тут появятся кнопки на Google Maps */}
+<ReviewsSection />
 <VideoSection />
-      {/* Примеры (галерея) в самом низу главной */}
       <RealizacjeSection />
 
       <Footer />

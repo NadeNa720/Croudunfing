@@ -1,8 +1,8 @@
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  schema: "./shared/schema.ts",   // путь к твоему schema (ты используешь @shared/schema?)
-  out: "./drizzle",            // папка куда будут сохраняться миграции
+  schema: "./shared/schema.ts",
+  out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
     url: process.env.DATABASE_URL!,

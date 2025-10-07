@@ -12,7 +12,7 @@ if (!MAIL_TO_ADMIN || MAIL_TO_ADMIN === "admin@example.com") {
   console.warn("[brevo] MAIL_TO_ADMIN is missing or default. Admin notifications may fail.");
 }
 
-/** Тип брони — максимально либеральный, чтобы не упасть, даже если поле отсутствует */
+
 export type Booking = {
   id?: string;
   firstName?: string;
@@ -30,19 +30,19 @@ export type Booking = {
 
   date?: string;               // "2025-10-20"
   time?: string;               // "14:00"
-  price?: string | number;     // "320" или 320
-  duration?: string | number;  // "3h" или 180
+  price?: string | number;     // "320"  320
+  duration?: string | number;  // "3h"  180
   createdAt?: string;
   notes?: string;
 };
 
-/* ================= Низкоуровневый вызов Brevo API ================= */
+
 async function brevoSendEmail(opts: {
   to: { email: string; name?: string }[];
   subject: string;
   html: string;
   text?: string;
-  bcc?: { email: string; name?: string }[];   // ← поддержка bcc
+  bcc?: { email: string; name?: string }[];
 }) {
   const sender = parseFrom(MAIL_FROM); // { email, name? }
 
@@ -69,9 +69,7 @@ async function brevoSendEmail(opts: {
   }
 }
 
-/* ================= Внешние функции, которые использует routes.ts ================= */
 
-/** Проверка связи при старте. Для Railway — просто быстрый ping к статусу Brevo. */
 export async function testEmailConnection() {
   const r = await fetch("https://api.brevo.com/v3/smtp/statistics/events?limit=1", {
     headers: { "api-key": BREVO_API_KEY, accept: "application/json" },
@@ -81,9 +79,9 @@ export async function testEmailConnection() {
   }
 }
 
-/** Письмо клиенту (подтверждение брони) */
+
 export async function sendCustomerConfirmation(b: Booking) {
-  if (!b.email) return; // если клиент не указал email — пропустить
+  if (!b.email) return;
   const subject = `Potwierdzenie rezerwacji — ${safe(b.service)}`;
   const html = renderCustomerHtml(b);
   const text = renderTextFallback(b);
@@ -93,13 +91,13 @@ export async function sendCustomerConfirmation(b: Booking) {
     subject,
     html,
     text,
-    // отправим скрытую копию админу, если сконфигурирован
+
     bcc: MAIL_TO_ADMIN && MAIL_TO_ADMIN !== "admin@example.com" ? [{ email: MAIL_TO_ADMIN, name: "Admin" }] : undefined,
   });
   console.log(`[brevo] Customer email sent to ${b.email}${MAIL_TO_ADMIN && MAIL_TO_ADMIN !== "admin@example.com" ? ` (bcc: ${MAIL_TO_ADMIN})` : ""}`);
 }
 
-/** Письмо админу (уведомление о новой брони) */
+
 export async function sendBusinessNotification(b: Booking) {
   if (!MAIL_TO_ADMIN || MAIL_TO_ADMIN === "admin@example.com") {
     throw new Error("[brevo] MAIL_TO_ADMIN not configured");
@@ -117,7 +115,6 @@ export async function sendBusinessNotification(b: Booking) {
   console.log(`[brevo] Admin email sent to ${MAIL_TO_ADMIN}`);
 }
 
-/* ================= Шаблоны писем (красивый дизайн) ================= */
 
 function renderCustomerHtml(b: Booking) {
   const price = (b.price ?? "-").toString();
@@ -248,7 +245,7 @@ function renderAdminHtml(b: Booking) {
 `;
 }
 
-/* ================= Текстовый фоллбэк ================= */
+
 function renderTextFallback(b: Booking) {
   return `Rezerwacja:
 Usługa: ${b.service || "-"}
@@ -263,7 +260,6 @@ ID: ${b.id || "-"}
 `;
 }
 
-/* ================= Утилиты ================= */
 function safe(v?: string) {
   return (v || "").toString().replace(/[<>&]/g, s => ({ "<":"&lt;","&":"&amp;",">":"&gt;" }[s]!));
 }
@@ -274,7 +270,7 @@ function parseFrom(v: string): { email: string; name?: string } {
   return { email: v.trim() };
 }
 
-// — утилиты для HTML-шаблонов —
+
 function escapeHtml(v?: string) {
   return (v ?? "").toString().replace(/[<>&"]/g, s => ({ "<":"&lt;","&":"&amp;",">":"&gt;", "\"":"&quot;" }[s]!));
 }
@@ -289,7 +285,7 @@ function labelWindow(opt?: "none"|"standard"|"nonStandard") {
   return "—";
 }
 function humanDuration(v: string) {
-  // принимает "8 godz. 30 min" | "510" | "3h"
+
   const num = Number(v);
   if (!isNaN(num)) {
     const h = Math.floor(num/60), m = num%60;

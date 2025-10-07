@@ -19,7 +19,7 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [location, setLocation] = useLocation();
 
-  // Универсальный переход: если уже на "/", скроллим плавно. Иначе — переходим на /#hash
+
   const go = (hash: string) => {
     const id = hash.trim();
     if (location === "/") {
@@ -41,7 +41,6 @@ export default function Header({ onScrollToBooking }: HeaderProps) {
     { label: "FAQ", action: () => go("faq") },
     { label: "Prezent", action: () => go("gift") },
     { label: "Kontakt", action: () => go("kontakt") },
-    // ↓ ВАЖНО: id именно "realizacje" (нижний регистр), как в секции на главной
     { label: "Realizacje", action: () => go("realizacje") },
   ];
 
