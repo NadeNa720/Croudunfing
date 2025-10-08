@@ -5,16 +5,16 @@ export default function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground py-12">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Company Info */}
           <div>
             <h3 className="text-xl font-bold mb-4">SprzątanieMieszkań.com</h3>
             <p className="text-primary-foreground/80 mb-4">
-              Profesjonalne usługi sprzątania mieszkań w całej Polsce. 
+              Profesjonalne usługi sprzątania mieszkań w całej Polsce.
               Zarezerwuj online w 60 sekund.
             </p>
           </div>
-          
+
           {/* Contact Info */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Kontakt</h4>
@@ -33,8 +33,7 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          
-
+        </div>
         
         <hr className="my-8 border-primary-foreground/20" />
         

@@ -1,0 +1,60 @@
+[33m1c56148[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m time
+[33me5095b4[m time
+[33mc3cb4cb[m time
+[33mccbf085[m time
+[33m3123f09[m time
+[33m894f8f0[m time
+[33m1d801bc[m time
+[33m2939da0[m removed comments
+[33ma160cf5[m removed comments
+[33m61037f1[m removed comments
+[33m6471975[m removed comments
+[33m49a1152[m removed comments
+[33ma5a9cac[m removed comments
+[33mb51ee12[m removed comments
+[33m33cdc7f[m favicon
+[33mdd886f6[m favicon
+[33m7fa34eb[m favicon
+[33m9ea3973[m favicon
+[33m1daa0aa[m favicon
+[33mdcce98a[m favicon
+[33maf7d78b[m favicon
+[33m0a8ba07[m Update website: added photos and reviews
+[33m3b4af08[m Update website: added photos and reviews
+[33m3e53296[m Update website: added photos and reviews
+[33m4836f4c[m Update website: added photos and reviews
+[33mae95459[m Update website: added photos and reviews
+[33maf8686e[m Update website: added photos and reviews
+[33m45a3bc4[m Добавил страницу Realizacje и кнопку в шапке
+[33m55c3cc8[m Добавил страницу Realizacje и кнопку в шапке
+[33m27e7d25[m Updated .gitignore
+[33m48461d3[m Добавил страницу Realizacje и кнопку в шапке
+[33mffd1ae2[m Добавил страницу Realizacje и кнопку в шапке
+[33m8796cd3[m Добавил страницу Realizacje и кнопку в шапке
+[33m69453fd[m Добавил страницу Realizacje и кнопку в шапке
+[33md542e2a[m Добавил страницу Realizacje и кнопку в шапке
+[33m7bf5cad[m Добавил страницу Realizacje и кнопку в шапке
+[33mbc0dae7[m Добавил страницу Realizacje и кнопку в шапке
+[33mabc7fdc[m Добавил страницу Realizacje и кнопку в шапке
+[33m7f66678[m Добавил страницу Realizacje и кнопку в шапке
+[33m0641529[m Добавил страницу Realizacje и кнопку в шапке
+[33m50a1042[m Добавил страницу Realizacje и кнопку в шапке
+[33mc3b1754[m Добавил страницу Realizacje и кнопку в шапке
+[33m8923530[m Добавил страницу Realizacje и кнопку в шапке
+[33m4582825[m Добавил страницу Realizacje и кнопку в шапке
+[33m79f325e[m Добавил страницу Realizacje и кнопку в шапке
+[33ma41e685[m Добавил страницу Realizacje и кнопку в шапке
+[33m816e0c9[m Добавил страницу Realizacje и кнопку в шапке
+[33m008f821[m Добавил страницу Realizacje и кнопку в шапке
+[33m863e823[m Добавил страницу Realizacje и кнопку в шапке
+[33m586910a[m Update email templates for SendGrid (customer + admin)
+[33mb9f4727[m Update email templates for SendGrid (customer + admin)
+[33m7e6e7fa[m Update email templates for SendGrid (customer + admin)
+[33m78efd84[m Update email templates for SendGrid (customer + admin)
+[33m7c31e56[m Update email templates for SendGrid (customer + admin)
+[33m1ade224[m Update email templates for SendGrid (customer + admin)
+[33m9852da9[m Update email service to SendGrid + fix db.ts for Railway
+[33m51719b8[m Update email service to SendGrid + fix db.ts for Railway
+[33m5d93501[m Update email service to SendGrid + fix db.ts for Railway
+[33m074eb15[m Replace nodemailer with SendGrid and update dependencies
+[33m3515582[m Initial commit
