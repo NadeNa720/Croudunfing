@@ -28,7 +28,7 @@ export default function ServiceCard({
   const firstArea = areaKeys[0];
   const firstAreaData = firstArea ? service.areas[firstArea] : undefined;
   const isCustomPricing = !firstAreaData || firstAreaData.price === 0;
-
+  const [showDetails, setShowDetails] = useState(false);
   const isOpen = openDetailsId === service.id;
 
   return (
