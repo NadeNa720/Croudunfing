@@ -98,7 +98,7 @@ export const CLEANING_SERVICES: ServiceOption[] = [
           nonStandard: { duration: "9 godz. 30 min", price: 1099.99 }
         }
       }
-    }
+    },
     details: `
       <ul class="list-disc pl-5 space-y-1">
         <li>Odkurzanie podłóg i listew podłogowych</li>
@@ -145,7 +145,7 @@ export const CLEANING_SERVICES: ServiceOption[] = [
           nonStandard: { duration: "12 godz. 30 min", price: 1599.99 }
         }
       }
-    }
+    },
 details: `
       <ul class="list-disc pl-5 space-y-1">
         <li>Wszystko z pakietu Srebrnego, a dodatkowo:</li>
