@@ -34,42 +34,7 @@ export default function Footer() {
             </div>
           </div>
           
-          {/* Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Informacje</h4>
-            <div className="space-y-2">
-              <Button 
-                variant="ghost" 
-                className="p-0 h-auto text-primary-foreground/80 hover:text-primary-foreground justify-start"
-                data-testid="link-privacy"
-                onClick={() => alert('Polityka prywatności: Zgodnie z RODO, przetwarzamy Twoje dane osobowe wyłącznie w celu świadczenia usług sprzątania. Więcej informacji: kontakt@sprzątaniemieszkań.com')}
-              >
-                Polityka prywatności
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="p-0 h-auto text-primary-foreground/80 hover:text-primary-foreground justify-start"
-                data-testid="link-terms"
-                onClick={() => alert('Regulamin usług: Usługi sprzątania świadczymy zgodnie z polskim prawem. Szczegółowy regulamin dostępny pod adresem: kontakt@sprzątaniemieszkań.com')}
-              >
-                Regulamin usług
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="p-0 h-auto text-primary-foreground/80 hover:text-primary-foreground justify-start"
-                data-testid="link-faq"
-                onClick={() => {
-                  const faqSection = document.getElementById('faq') || document.querySelector('[data-testid*="faq"]');
-                  if (faqSection) {
-                    faqSection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-              >
-                Często zadawane pytania
-              </Button>
-            </div>
-          </div>
-        </div>
+
         
         <hr className="my-8 border-primary-foreground/20" />
         
