@@ -75,6 +75,41 @@ export default function ServiceCard({ service, selectedService, onSelect }: Serv
             data-testid={`button-select-${service.id}`}
           >
             {isSelected ? 'WYBRANO' : 'ZAREZERWUJ'}
+            {service.details && (
+                  <div
+                    className="mt-4 text-sm text-muted-foreground"
+                    dangerouslySetInnerHTML={{ __html: service.details }}
+                  />
+                )}
+
+            <Button
+  onClick={() => onSelect(service)}
+  className="mt-4 w-full font-semibold"
+>
+  {selectedService === service.id ? "WYBRANO" : "ZAREZERWUJ"}
+</Button>
+
+{/* ▼ Добавляем сюда раскрывающийся список */}
+{service.details && (
+  <>
+    <Button
+      variant="link"
+      onClick={() => setShowDetails(!showDetails)}
+      className="mt-2 text-sm text-blue-600"
+    >
+      {showDetails ? "Ukryj szczegóły" : "Zobacz zakres usług"}
+    </Button>
+
+    {showDetails && (
+      <div
+        className="mt-2 text-sm text-muted-foreground"
+        dangerouslySetInnerHTML={{ __html: service.details }}
+      />
+    )}
+  </>
+)}
+
+
           </Button>
         </div>
       </CardContent>

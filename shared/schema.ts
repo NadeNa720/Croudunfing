@@ -183,3 +183,41 @@ export const CLEANING_SERVICES: ServiceOption[] = [
     }
   }
 ];
+export const CLEANING_SERVICES = [
+  {
+    id: "silver",
+    name: "Sprzątanie podstawowe (pakiet srebrny)",
+    badge: "Srebrny",
+    price: 399.99,
+    duration: "3 godz.",
+    areas: { ... },
+    details: `
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Odkurzanie i mycie podłóg</li>
+        <li>Wycieranie kurzu z parapetów, grzejników, kontaktów</li>
+        <li>Sprzątanie łazienki: armatura, kabina prysznicowa, umywalka, WC</li>
+        <li>Sprzątanie kuchni: blaty, zlew, naczynia, sprzęty AGD (zewnętrznie)</li>
+        <li>Mycie luster i opróżnianie koszy</li>
+        <li>Mycie podłogi balkonu/tarasu do 4m²</li>
+        <li>Sprzątanie do wysokości 2 m</li>
+      </ul>
+    `
+  },
+  {
+    id: "platinum",
+    name: "Sprzątanie kompleksowe (pakiet platynowy)",
+    badge: "Platynowy",
+    price: 599.99,
+    duration: "5 godz.",
+    areas: { ... },
+    details: `
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Wszystko z pakietu Srebrnego, a także:</li>
+        <li>Mycie piekarnika, lodówki i mikrofali</li>
+        <li>Mycie glazury łazienkowej</li>
+        <li>Mycie podłogi balkonu/tarasu (bez limitu m²)</li>
+        <li>Profesjonalne środki czystości w cenie</li>
+      </ul>
+    `
+  }
+];
