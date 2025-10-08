@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,16 +9,27 @@ interface ServiceCardProps {
   service: ServiceOption;
   selectedService: string | null;
   onSelect: (service: ServiceOption) => void;
+
+  // для управления одним открытым блоком
+  openDetailsId: string | null;
+  setOpenDetailsId: (id: string | null) => void;
 }
 
-export default function ServiceCard({ service, selectedService, onSelect }: ServiceCardProps) {
-  const [showDetails, setShowDetails] = useState(false);
+export default function ServiceCard({
+  service,
+  selectedService,
+  onSelect,
+  openDetailsId,
+  setOpenDetailsId,
+}: ServiceCardProps) {
 
   const isSelected = selectedService === service.id;
-  const areaKeys = Object.keys(service.areas);
+  const areaKeys = useMemo(() => Object.keys(service.areas), [service.areas]);
   const firstArea = areaKeys[0];
   const firstAreaData = firstArea ? service.areas[firstArea] : undefined;
   const isCustomPricing = !firstAreaData || firstAreaData.price === 0;
+
+  const isOpen = openDetailsId === service.id;
 
   return (
     <Card
@@ -32,7 +43,6 @@ export default function ServiceCard({ service, selectedService, onSelect }: Serv
         <div className="flex justify-between items-start gap-2">
           <CardTitle className="text-lg leading-tight">{service.name}</CardTitle>
 
-          {/* Значок пакета — берём из service.badge, если есть; иначе показываем по id */}
           {service.badge ? (
             <Badge variant="secondary" className="text-xs">{service.badge}</Badge>
           ) : service.id === "comprehensive" ? (
@@ -49,7 +59,6 @@ export default function ServiceCard({ service, selectedService, onSelect }: Serv
 
       <CardContent className="pt-0">
         <div className="space-y-3">
-          {/* Цена и длительность для первого диапазона метража */}
           {firstAreaData && (
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center gap-1 text-muted-foreground">
@@ -70,12 +79,10 @@ export default function ServiceCard({ service, selectedService, onSelect }: Serv
             </div>
           )}
 
-          {/* Доступные метражи */}
           <div className="text-xs text-muted-foreground">
             Dostępne dla mieszkań: {areaKeys.join(", ")}
           </div>
 
-          {/* Кнопка выбора */}
           <Button
             className="w-full font-semibold"
             variant={isSelected ? "default" : "outline"}
@@ -88,25 +95,23 @@ export default function ServiceCard({ service, selectedService, onSelect }: Serv
             {isSelected ? "WYBRANO" : "ZAREZERWUJ"}
           </Button>
 
-          {/* Переключатель и блок „Zakres usług” */}
           {service.details && (
             <>
               <Button
                 type="button"
-                variant="link"
+                variant="outline"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setShowDetails((v) => !v);
+                  setOpenDetailsId(isOpen ? null : service.id);
                 }}
-                className="mt-1 p-0 h-auto text-sm"
+                className="mt-2 h-8 px-3 text-sm border-blue-300 text-blue-700 bg-blue-50 hover:bg-blue-100 hover:text-blue-800"
               >
-                {showDetails ? "Ukryj szczegóły" : "Zobacz zakres usług"}
+                {isOpen ? "Ukryj szczegóły" : "Zobacz zakres usług"}
               </Button>
 
-              {showDetails && (
+              {isOpen && (
                 <div
-                  className="mt-1 text-sm text-muted-foreground"
-                  // details приходит как безопасный HTML-список из схемы
+                  className="mt-2 text-sm text-muted-foreground"
                   dangerouslySetInnerHTML={{ __html: service.details }}
                 />
               )}
