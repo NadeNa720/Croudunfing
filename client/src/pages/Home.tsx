@@ -19,7 +19,7 @@ export default function Home() {
   const [bookingData, setBookingData] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const bookingRef = useRef<HTMLDivElement>(null);
-  const [openDetailsId, setOpenDetailsId] = useState<string | null>(null);
+
 
 
   const handleServiceSelect = (service: ServiceOption) => {
@@ -78,8 +78,7 @@ export default function Home() {
                 service={service}
                 selectedService={selectedService?.id || null}
                 onSelect={handleServiceSelect}
-                openDetailsId={openDetailsId}
-                setOpenDetailsId={setOpenDetailsId}
+
               />
             ))}
           </div>
