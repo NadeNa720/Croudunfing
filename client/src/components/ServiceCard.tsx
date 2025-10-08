@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,27 +9,20 @@ interface ServiceCardProps {
   service: ServiceOption;
   selectedService: string | null;
   onSelect: (service: ServiceOption) => void;
-
-  // для управления одним открытым блоком
-  openDetailsId: string | null;
-  setOpenDetailsId: (id: string | null) => void;
 }
 
 export default function ServiceCard({
   service,
   selectedService,
   onSelect,
-  openDetailsId,
-  setOpenDetailsId,
 }: ServiceCardProps) {
+  const [showDetails, setShowDetails] = useState(false);
 
   const isSelected = selectedService === service.id;
   const areaKeys = useMemo(() => Object.keys(service.areas), [service.areas]);
   const firstArea = areaKeys[0];
   const firstAreaData = firstArea ? service.areas[firstArea] : undefined;
   const isCustomPricing = !firstAreaData || firstAreaData.price === 0;
-  const [showDetails, setShowDetails] = useState(false);
-  const isOpen = openDetailsId === service.id;
 
   return (
     <Card
@@ -102,14 +95,14 @@ export default function ServiceCard({
                 variant="outline"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setOpenDetailsId(isOpen ? null : service.id);
+                  setShowDetails(v => !v);
                 }}
                 className="mt-2 h-8 px-3 text-sm border-blue-300 text-blue-700 bg-blue-50 hover:bg-blue-100 hover:text-blue-800"
               >
-                {isOpen ? "Ukryj szczegóły" : "Zobacz zakres usług"}
+                {showDetails ? "Ukryj szczegóły" : "Zobacz zakres usług"}
               </Button>
 
-              {isOpen && (
+              {showDetails && (
                 <div
                   className="mt-2 text-sm text-muted-foreground"
                   dangerouslySetInnerHTML={{ __html: service.details }}
