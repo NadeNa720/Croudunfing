@@ -58,6 +58,7 @@ export interface ServiceOption {
     };
   };
  details?: string;
+ badge?: string;
 }
 
 export const CLEANING_SERVICES: ServiceOption[] = [
@@ -65,6 +66,7 @@ export const CLEANING_SERVICES: ServiceOption[] = [
     id: "basic",
     name: "Sprzątanie podstawowe (pakiet srebrny)",
     description: "Kompleksowe sprzątanie mieszkania według standardu srebrnego",
+    badge: "Srebrny",
     areas: {
       "do 30 m²": {
         duration: "3 godz.",
@@ -117,6 +119,7 @@ export const CLEANING_SERVICES: ServiceOption[] = [
     id: "comprehensive",
     name: "Sprzątanie kompleksowe (pakiet platynowy)",
     description: "Najwyższej jakości sprzątanie z dodatkowymi usługami",
+    badge: "Platynowy",
     areas: {
       "do 30 m²": {
         duration: "5 godz.",
