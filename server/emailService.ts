@@ -92,7 +92,6 @@ export async function sendCustomerConfirmation(b: Booking) {
     html,
     text,
 
-    bcc: MAIL_TO_ADMIN && MAIL_TO_ADMIN !== "admin@example.com" ? [{ email: MAIL_TO_ADMIN, name: "Admin" }] : undefined,
   });
   console.log(`[brevo] Customer email sent to ${b.email}${MAIL_TO_ADMIN && MAIL_TO_ADMIN !== "admin@example.com" ? ` (bcc: ${MAIL_TO_ADMIN})` : ""}`);
 }
