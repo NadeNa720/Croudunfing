@@ -25,7 +25,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2" data-testid="footer-email">
                 <Mail className="w-4 h-4" />
-                <span>kontakt@sprzątaniemieszkań.com</span>
+                <span>cyklicznesprzatanie@gmail.com</span>
               </div>
               <div className="flex items-start gap-2" data-testid="footer-address">
                 <MapPin className="w-4 h-4 mt-1" />
