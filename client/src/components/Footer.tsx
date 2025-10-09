@@ -15,7 +15,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact. Info */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Kontakt</h4>
             <div className="space-y-3 text-primary-foreground/80">
