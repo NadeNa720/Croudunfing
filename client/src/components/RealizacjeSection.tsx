@@ -163,7 +163,7 @@ export default function RealizacjeSection() {
   );
 }
 
-/** Карточка-совет */
+
 function TipCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="bg-muted/40 rounded-2xl p-5 shadow">

@@ -1,5 +1,5 @@
 // server/emailService.ts
-// Node 18+ (global fetch). Если Node < 18 — дам вариант с node-fetch.
+
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
 const MAIL_FROM = process.env.MAIL_FROM || "no-reply@example.com";
