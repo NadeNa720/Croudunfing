@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import candleMainImage from "@assets/img.png";
+import candleMainImage from "../assets/img.png";
+
 
 interface HeroSectionProps {
   onScrollToBooking: () => void;
