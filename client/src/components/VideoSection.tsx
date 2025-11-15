@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Play } from "lucide-react";
+import demoVideo from "../assets/realizacje/video.mp4";
 
 export default function VideoSection() {
   return (
@@ -29,20 +30,16 @@ export default function VideoSection() {
           </Card>
 
           <Card className="overflow-hidden">
-            <CardContent className="p-0">
-              <div className="relative aspect-video bg-muted">
-                <iframe
-                  src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fr%2F1HBC2qXMmc%2F&show_text=false&width=560&t=0"
-                  title="SprzątanieMieszkań.com na Facebooku"
-                  className="absolute inset-0 w-full h-full"
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  allowFullScreen
-                  scrolling="no"
-                  data-testid="video-facebook"
-                />
-              </div>
-            </CardContent>
-          </Card>
+  <CardContent className="p-0">
+    <div className="relative aspect-video bg-muted">
+      <video
+        src={demoVideo}
+        controls
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+    </div>
+  </CardContent>
+</Card>
         </div>
       </div>
     </section>
