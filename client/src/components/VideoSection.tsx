@@ -32,7 +32,7 @@ export default function VideoSection() {
             <CardContent className="p-0">
               <div className="relative aspect-video bg-muted">
                 <iframe
-                  src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fr%2F1HBC2qXMmc%2F&show_text=false&width=560&t=0"
+                  src="https://www.facebook.com/share/r/1JHvYPZz15/"
                   title="SprzątanieMieszkań.com na Facebooku"
                   className="absolute inset-0 w-full h-full"
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
