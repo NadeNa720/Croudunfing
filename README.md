@@ -1,6 +1,6 @@
-# SkyRelay marketing site
+# AirCarry marketing site
 
-A single-page, investor-focused landing site for SkyRelay, a peer-to-peer international delivery network that matches senders with travelers who have unused luggage capacity.
+A single-page, investor-focused landing site for AirCarry, a peer-to-peer international delivery network that matches senders with travelers who have unused luggage capacity.
 
 ## Running locally
 
