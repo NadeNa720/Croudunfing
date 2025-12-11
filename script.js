@@ -7,19 +7,38 @@ sizeButtons.forEach(btn => {
   });
 });
 
-// Tabbed navigation for functional sections
+// Tabbed navigation for functional sections + guided flow
 const tabButtons = document.querySelectorAll('.tab-btn');
 const devices = document.querySelectorAll('.device');
+const sequence = ['book', 'send', 'track', 'search'];
+let currentIndex = 0;
+
+const activateTab = (target) => {
+  currentIndex = sequence.indexOf(target);
+  tabButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.target === target);
+  });
+
+  devices.forEach(device => {
+    const isMatch = device.dataset.tab === target;
+    device.classList.toggle('active', isMatch);
+  });
+};
 
 tabButtons.forEach(button => {
   button.addEventListener('click', () => {
-    const target = button.dataset.target;
+    activateTab(button.dataset.target);
+  });
+});
 
-    tabButtons.forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
+const nextActions = document.querySelectorAll('.next-action');
+nextActions.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const parentTab = btn.closest('.device')?.dataset.tab;
+    const current = sequence.indexOf(parentTab);
+    const nextIndex = (current + 1) % sequence.length;
 
-    devices.forEach(device => {
-      device.classList.toggle('active', device.dataset.tab === target);
-    });
+    // brief pause for perceived completion then slide forward
+    setTimeout(() => activateTab(sequence[nextIndex]), 160);
   });
 });

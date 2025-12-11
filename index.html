@@ -10,6 +10,12 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="background-wrap" aria-hidden="true">
+    <div class="orb orb-primary"></div>
+    <div class="orb orb-secondary"></div>
+    <div class="orb orb-tertiary"></div>
+  </div>
+
   <header class="page-header">
     <div>
       <p class="eyebrow">AirCarry mobile concept</p>
@@ -25,6 +31,8 @@
     <button class="tab-btn" data-target="track">Track Parcel</button>
     <button class="tab-btn" data-target="search">Search Flights</button>
   </nav>
+
+  <p class="flow-note">Tap any main action to glide to the next step automatically.</p>
 
   <main class="devices">
     <article class="device active" data-tab="book">
@@ -62,7 +70,7 @@
               <input id="passengers" type="text" placeholder="2" />
             </div>
           </div>
-          <button class="primary">Track parcel</button>
+          <button class="primary next-action">Track parcel</button>
         </section>
       </div>
     </article>
@@ -95,7 +103,7 @@
               <span class="size-copy">Any shape or weight</span>
             </button>
           </div>
-          <button class="primary full">Choose Traveler</button>
+          <button class="primary full next-action">Choose Traveler</button>
         </section>
       </div>
     </article>
@@ -113,7 +121,7 @@
             <label for="tracking">Tracking number</label>
             <input id="tracking" type="text" placeholder="AWB / Booking ID" />
           </div>
-          <button class="primary">Track parcel</button>
+          <button class="primary next-action">Track parcel</button>
         </section>
         <section class="card">
           <div class="summary-row">
@@ -158,7 +166,7 @@
             <label for="date-range">Date</label>
             <input id="date-range" type="text" placeholder="Optional" />
           </div>
-          <button class="primary full">Search flights</button>
+          <button class="primary full next-action">Search flights</button>
         </section>
         <nav class="tabbar">
           <a class="tab active" aria-current="page">Backlog</a>

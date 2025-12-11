@@ -1,6 +1,8 @@
 # AirCarry mobile concept preview
 
-This repo hosts a static preview of the AirCarry mobile experience, mirroring the latest design mock across booking, sending, tracking, and searching flows. The layout uses four device frames inspired by the provided reference, now organized into tabs so viewers can flip between each functional slice.
+This repo hosts a static preview of the AirCarry mobile experience, mirroring the latest design mock across booking, sending, tracking, and searching flows. The layout uses four device frames inspired by the provided reference, organized into tabs so viewers can flip between each functional slice.
+
+Each main action automatically glides to the next stage to show the end-to-end story, and the page floats on top of a subtle animated backdrop to keep the presentation investor-ready.
 
 ## Running locally
 
