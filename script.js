@@ -43,6 +43,18 @@ nextActions.forEach(btn => {
   });
 });
 
+// Report issue interaction on tracking screen
+const reportBtn = document.getElementById('reportBtn');
+const reportStatus = document.getElementById('reportStatus');
+
+reportBtn?.addEventListener('click', () => {
+  reportBtn.disabled = true;
+  reportBtn.textContent = 'Report submitted';
+  if (reportStatus) {
+    reportStatus.textContent = 'Thanks for flagging this parcel. Support will reach out shortly.';
+  }
+});
+
 // Profile popover for avatar clicks
 const profileOverlay = document.getElementById('profileOverlay');
 const profilePanel = document.getElementById('profilePanel');

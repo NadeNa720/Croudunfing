@@ -6,6 +6,8 @@ Each main action automatically glides to the next stage to show the end-to-end s
 
 A personalized profile avatar in each mock screen highlights the trusted, user-first feel of the experience, and clicking it reveals a short profile card with traveler details.
 
+The tracking view also includes a dedicated "Report issue" control to demonstrate how a traveler could flag parcel problems directly from the flow.
+
 ## Running locally
 
 Open `index.html` directly in your browser or serve the repo root with any static server:
