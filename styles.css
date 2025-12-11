@@ -3,7 +3,9 @@
   --yellow-strong: #f9c600;
   --black: #111;
   --gray: #f5f5f7;
-  --border: #e1e1e5;
+  --paper: #f7f3e8;
+  --paper-strong: #f1ebdd;
+  --border: #d9d4c6;
   --muted: #6b6b72;
   --shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
 }
@@ -17,10 +19,10 @@
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: radial-gradient(circle at 20% 20%, rgba(255, 214, 0, 0.16), transparent 32%),
-    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.28), transparent 36%),
-    radial-gradient(circle at 82% 60%, rgba(17, 17, 17, 0.18), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.2), transparent 36%),
+    radial-gradient(circle at 82% 60%, rgba(17, 17, 17, 0.22), transparent 40%),
     #0e0e11;
-  color: var(--black);
+  color: #f3f2ef;
   padding: 48px clamp(20px, 5vw, 56px) 64px;
   min-height: 100vh;
 }
@@ -99,7 +101,7 @@ body > *:not(.background-wrap) {
 }
 
 .tab-btn {
-  background: #fff;
+  background: var(--paper);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 12px 14px;
@@ -117,8 +119,8 @@ body > *:not(.background-wrap) {
 
 .tab-btn.active {
   border-color: var(--yellow-strong);
-  color: var(--black);
-  box-shadow: 0 0 0 4px rgba(249, 198, 0, 0.28);
+  color: #18181b;
+  box-shadow: 0 0 0 4px rgba(249, 198, 0, 0.2);
 }
 
 .page-header h1 {
@@ -141,7 +143,7 @@ body > *:not(.background-wrap) {
 }
 
 .badge {
-  background: #fff;
+  background: var(--paper);
   border: 1px solid var(--border);
   padding: 10px 14px;
   border-radius: 12px;
@@ -198,13 +200,13 @@ body > *:not(.background-wrap) {
 }
 
 .screen {
-  background: #fff;
+  background: var(--paper);
   border-radius: 24px;
   overflow: hidden;
   min-height: 532px;
   display: flex;
   flex-direction: column;
-  border: 1px solid #dcdce0;
+  border: 1px solid var(--border);
 }
 
 .topbar {
@@ -278,7 +280,7 @@ body > *:not(.background-wrap) {
 }
 
 .card {
-  background: #fff;
+  background: var(--paper-strong);
   border-radius: 18px;
   border: 1px solid var(--border);
   padding: 18px;
@@ -312,7 +314,7 @@ body > *:not(.background-wrap) {
   border-radius: 12px;
   padding: 12px 14px;
   font-size: 15px;
-  background: #fafafa;
+  background: #f2efe4;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -363,7 +365,7 @@ body > *:not(.background-wrap) {
   padding: 12px 14px;
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: #fafafa;
+  background: #f2efe4;
   cursor: pointer;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
@@ -371,7 +373,7 @@ body > *:not(.background-wrap) {
 .size-btn.selected {
   border-color: var(--yellow-strong);
   box-shadow: 0 0 0 3px rgba(249, 198, 0, 0.35);
-  background: #fffbe6;
+  background: #fff4c9;
 }
 
 .size-title {
