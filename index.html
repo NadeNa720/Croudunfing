@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AirCarry Mobile Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-wrap" aria-hidden="true">
+    <div class="orb orb-primary"></div>
+    <div class="orb orb-secondary"></div>
+    <div class="orb orb-tertiary"></div>
+  </div>
+
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">AirCarry mobile concept</p>
+      <h1>Book a flight, carry parcels, and track everything in one clean flow.</h1>
+      <p class="lede">A visual preview of the AirCarry experience for senders and travelers, inspired by the latest product design mock.</p>
+    </div>
+  </header>
+
+  <nav class="functional-tabs" aria-label="Functional sections">
+    <button class="tab-btn active" data-target="book">Book &amp; Earn</button>
+    <button class="tab-btn" data-target="send">Send Parcel</button>
+    <button class="tab-btn" data-target="track">Track Parcel</button>
+    <button class="tab-btn" data-target="search">Search Flights</button>
+  </nav>
+
+  <p class="flow-note">Tap any main action to glide to the next step automatically.</p>
+
+  <main class="devices">
+    <article class="device active" data-tab="book">
+      <div class="speaker"></div>
+      <div class="screen">
+        <header class="topbar">
+          <span class="icon">←</span>
+          <span class="title">aircarry</span>
+          <button class="user-avatar" type="button" aria-label="User profile">
+            <span class="avatar-letter">A</span>
+          </button>
+        </header>
+        <section class="panel highlight">
+          <div class="flight-icon">✈️</div>
+          <div class="panel-text">
+            <p class="panel-kicker">Book a Flight &amp; Earn</p>
+            <h2>by Carrying Parcels</h2>
+          </div>
+        </section>
+        <section class="card">
+          <p class="label">Trip details</p>
+          <div class="input-group">
+            <label for="origin">From</label>
+            <input id="origin" type="text" placeholder="e.g., Warsaw" />
+          </div>
+          <div class="input-group">
+            <label for="destination">To</label>
+            <input id="destination" type="text" placeholder="e.g., Lisbon" />
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="date">Date</label>
+              <input id="date" type="text" placeholder="mm / dd" />
+            </div>
+            <div class="input-group">
+              <label for="passengers">Number of passengers</label>
+              <input id="passengers" type="text" placeholder="2" />
+            </div>
+          </div>
+          <button class="primary next-action">Track parcel</button>
+        </section>
+      </div>
+    </article>
+
+    <article class="device" data-tab="send">
+      <div class="speaker"></div>
+      <div class="screen">
+        <header class="topbar">
+          <span class="icon">←</span>
+          <div class="center-title">Send Parcel</div>
+          <button class="user-avatar" type="button" aria-label="User profile">
+            <span class="avatar-letter">A</span>
+          </button>
+        </header>
+        <section class="card">
+          <p class="label">Parcel size</p>
+          <div class="size-options">
+            <button class="size-btn selected">
+              <span class="size-title">Small</span>
+              <span class="size-copy">Max. 2 kg / 20 x 20 cm</span>
+            </button>
+            <button class="size-btn">
+              <span class="size-title">Medium</span>
+              <span class="size-copy">Max. 10 kg / 35 x 35 cm</span>
+            </button>
+            <button class="size-btn">
+              <span class="size-title">Large</span>
+              <span class="size-copy">Max. 20 kg / 60 x 60 cm</span>
+            </button>
+            <button class="size-btn">
+              <span class="size-title">Custom</span>
+              <span class="size-copy">Any shape or weight</span>
+            </button>
+          </div>
+          <button class="primary full next-action">Choose Traveler</button>
+        </section>
+      </div>
+    </article>
+
+    <article class="device" data-tab="track">
+      <div class="speaker"></div>
+      <div class="screen">
+        <header class="topbar">
+          <span class="icon">←</span>
+          <div class="center-title">Tracking Parcel</div>
+          <button class="user-avatar" type="button" aria-label="User profile">
+            <span class="avatar-letter">A</span>
+          </button>
+        </header>
+        <section class="card">
+          <div class="input-group">
+            <label for="tracking">Tracking number</label>
+            <input id="tracking" type="text" placeholder="AWB / Booking ID" />
+          </div>
+          <button class="primary next-action">Track parcel</button>
+        </section>
+        <section class="card">
+          <div class="summary-row">
+            <div>
+              <p class="label">My parcel</p>
+              <p class="value">045897143826</p>
+            </div>
+            <span class="status">In Progress</span>
+          </div>
+          <div class="summary-row">
+            <div>
+              <p class="label">From</p>
+              <p class="value">WAW</p>
+            </div>
+            <div>
+              <p class="label">To</p>
+              <p class="value">LIS</p>
+            </div>
+          </div>
+        </section>
+        <section class="card report-card">
+          <div>
+            <p class="label">Need help?</p>
+            <p class="support-copy">Flag delivery problems and our team will respond.</p>
+          </div>
+          <div class="report-actions">
+            <p class="report-status" id="reportStatus" role="status" aria-live="polite"></p>
+            <button class="secondary full" type="button" id="reportBtn">Report issue</button>
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <article class="device" data-tab="search">
+      <div class="speaker"></div>
+      <div class="screen">
+        <header class="topbar">
+          <span class="icon">←</span>
+          <div class="center-title">aircarry</div>
+          <button class="user-avatar" type="button" aria-label="User profile">
+            <span class="avatar-letter">A</span>
+          </button>
+        </header>
+        <section class="card">
+          <div class="input-group">
+            <label for="from">From</label>
+            <input id="from" type="text" placeholder="City or airport" />
+          </div>
+          <div class="input-group">
+            <label for="to">To</label>
+            <input id="to" type="text" placeholder="City or airport" />
+          </div>
+          <div class="input-group">
+            <label for="date-range">Date</label>
+            <input id="date-range" type="text" placeholder="Optional" />
+          </div>
+          <button class="primary full next-action">Search flights</button>
+        </section>
+      </div>
+    </article>
+  </main>
+  <div class="profile-overlay" id="profileOverlay"></div>
+  <section class="profile-panel" id="profilePanel" aria-hidden="true" aria-label="User profile details">
+    <header class="profile-header">
+      <div class="profile-avatar">A</div>
+      <div>
+        <p class="label">Signed in as</p>
+        <p class="profile-name">Avery Collins</p>
+        <p class="profile-tier">Verified traveler · AirCarry Trust</p>
+      </div>
+      <button class="close-profile" type="button" aria-label="Close profile">×</button>
+    </header>
+    <dl class="profile-details">
+      <div>
+        <dt>Email</dt>
+        <dd>avery.collins@aircarry.app</dd>
+      </div>
+      <div>
+        <dt>Member since</dt>
+        <dd>March 2024</dd>
+      </div>
+      <div>
+        <dt>Recent routes</dt>
+        <dd>WAW → LIS · JFK → BCN</dd>
+      </div>
+      <div>
+        <dt>Verified</dt>
+        <dd>Passport + payout</dd>
+      </div>
+    </dl>
+    <div class="profile-actions">
+      <button class="primary full" type="button">View my bookings</button>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>
