@@ -19,8 +19,15 @@
     <div class="badge">Zero new flights · Peer-to-peer delivery</div>
   </header>
 
+  <nav class="functional-tabs" aria-label="Functional sections">
+    <button class="tab-btn active" data-target="book">Book &amp; Earn</button>
+    <button class="tab-btn" data-target="send">Send Parcel</button>
+    <button class="tab-btn" data-target="track">Track Parcel</button>
+    <button class="tab-btn" data-target="search">Search Flights</button>
+  </nav>
+
   <main class="devices">
-    <article class="device">
+    <article class="device active" data-tab="book">
       <div class="speaker"></div>
       <div class="screen">
         <header class="topbar">
@@ -60,7 +67,7 @@
       </div>
     </article>
 
-    <article class="device">
+    <article class="device" data-tab="send">
       <div class="speaker"></div>
       <div class="screen">
         <header class="topbar">
@@ -93,7 +100,7 @@
       </div>
     </article>
 
-    <article class="device">
+    <article class="device" data-tab="track">
       <div class="speaker"></div>
       <div class="screen">
         <header class="topbar">
@@ -130,7 +137,7 @@
       </div>
     </article>
 
-    <article class="device">
+    <article class="device" data-tab="search">
       <div class="speaker"></div>
       <div class="screen">
         <header class="topbar">

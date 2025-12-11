@@ -31,6 +31,36 @@ body {
   flex-wrap: wrap;
 }
 
+.functional-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(17, 17, 17, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.tab-btn:hover {
+  transform: translateY(-1px);
+}
+
+.tab-btn.active {
+  border-color: var(--yellow-strong);
+  color: var(--black);
+  box-shadow: 0 0 0 4px rgba(249, 198, 0, 0.28);
+}
+
 .page-header h1 {
   font-size: clamp(28px, 3vw, 38px);
   line-height: 1.2;
@@ -61,9 +91,8 @@ body {
 
 .devices {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 28px;
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 0;
 }
 
 .device {
@@ -73,6 +102,11 @@ body {
   border-radius: 32px;
   box-shadow: var(--shadow);
   min-height: 560px;
+  display: none;
+}
+
+.device.active {
+  display: block;
 }
 
 .speaker {
