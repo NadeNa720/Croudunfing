@@ -3,200 +3,166 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AirCarry | Global peer-to-peer delivery</title>
+  <title>AirCarry Mobile Preview</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="noise"></div>
-
-  <header class="nav">
-    <div class="logo">AirCarry</div>
-    <nav>
-      <a href="#vision">Vision</a>
-      <a href="#how">How it works</a>
-      <a href="#trust">Trust</a>
-      <a href="#cta" class="pill">Invest</a>
-    </nav>
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">AirCarry mobile concept</p>
+      <h1>Book a flight, carry parcels, and track everything in one clean flow.</h1>
+      <p class="lede">A visual preview of the AirCarry experience for senders and travelers, inspired by the latest product design mock.</p>
+    </div>
+    <div class="badge">Zero new flights · Peer-to-peer delivery</div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero__text">
-        <p class="eyebrow">Peer-to-peer air delivery · Zero new flights</p>
-        <h1>Unused luggage space becomes the fastest delivery network on earth.</h1>
-        <p class="lede">AirCarry matches urgent shipments with travelers already in the air. Same-day or next-day delivery worldwide—secure, insured, and climate-friendly.</p>
-        <div class="hero__actions">
-          <button class="primary">Launch platform</button>
-          <button class="ghost">See investor deck</button>
-        </div>
-        <div class="metrics">
-          <div class="metric">
-            <span class="metric__value">18m+</span>
-            <span class="metric__label">kg unused capacity unlocked</span>
+  <main class="devices">
+    <article class="device">
+      <div class="speaker"></div>
+      <div class="screen">
+        <header class="topbar">
+          <span class="icon">←</span>
+          <span class="title">aircarry</span>
+          <span class="icon">⇪</span>
+        </header>
+        <section class="panel highlight">
+          <div class="flight-icon">✈️</div>
+          <div class="panel-text">
+            <p class="panel-kicker">Book a Flight &amp; Earn</p>
+            <h2>by Carrying Parcels</h2>
           </div>
-          <div class="metric">
-            <span class="metric__value">42%</span>
-            <span class="metric__label">cheaper than couriers</span>
+        </section>
+        <section class="card">
+          <p class="label">Trip details</p>
+          <div class="input-group">
+            <label for="origin">From</label>
+            <input id="origin" type="text" placeholder="e.g., Warsaw" />
           </div>
-          <div class="metric">
-            <span class="metric__value">15k</span>
-            <span class="metric__label">verified travelers</span>
+          <div class="input-group">
+            <label for="destination">To</label>
+            <input id="destination" type="text" placeholder="e.g., Lisbon" />
           </div>
-        </div>
-      </div>
-      <div class="hero__visual">
-        <div class="card reveal">
-          <p class="card__title">Instant Match</p>
-          <div class="route">
-            <span>NYC → Paris</span>
-            <span class="chip">6kg free</span>
-          </div>
-          <div class="progress">
-            <div class="progress__fill"></div>
-          </div>
-          <div class="match">
-            <div>
-              <p class="label">Sender</p>
-              <p class="value">Vintage camera</p>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="date">Date</label>
+              <input id="date" type="text" placeholder="mm / dd" />
             </div>
-            <div>
-              <p class="label">Traveler</p>
-              <p class="value">Boarding in 2h</p>
+            <div class="input-group">
+              <label for="passengers">Number of passengers</label>
+              <input id="passengers" type="text" placeholder="2" />
             </div>
           </div>
-          <div class="tags">
-            <span>Insured</span>
-            <span>Real-time tracking</span>
-            <span>Escrow payout</span>
-          </div>
-        </div>
+          <button class="primary">Track parcel</button>
+        </section>
       </div>
-    </section>
+    </article>
 
-    <section id="vision" class="panel reveal">
-      <div>
-        <p class="eyebrow">Why now</p>
-        <h2>Air travel already connects the world. We turn it into a delivery superpower.</h2>
-        <p class="lede">Every flight carries unused luggage space. AirCarry monetizes it ethically, creating a green delivery rail that outpaces traditional logistics without adding a single new plane to the sky.</p>
+    <article class="device">
+      <div class="speaker"></div>
+      <div class="screen">
+        <header class="topbar">
+          <span class="icon">←</span>
+          <div class="center-title">Send Parcel</div>
+          <span class="icon">⇪</span>
+        </header>
+        <section class="card">
+          <p class="label">Parcel size</p>
+          <div class="size-options">
+            <button class="size-btn selected">
+              <span class="size-title">Small</span>
+              <span class="size-copy">Max. 2 kg / 20 x 20 cm</span>
+            </button>
+            <button class="size-btn">
+              <span class="size-title">Medium</span>
+              <span class="size-copy">Max. 10 kg / 35 x 35 cm</span>
+            </button>
+            <button class="size-btn">
+              <span class="size-title">Large</span>
+              <span class="size-copy">Max. 20 kg / 60 x 60 cm</span>
+            </button>
+            <button class="size-btn">
+              <span class="size-title">Custom</span>
+              <span class="size-copy">Any shape or weight</span>
+            </button>
+          </div>
+          <button class="primary full">Choose Traveler</button>
+        </section>
       </div>
-      <div class="pill-grid">
-        <div class="pill-card">
-          <p class="pill-title">Faster than couriers</p>
-          <p class="pill-copy">Same-day handoffs while parcels ride existing flights. No warehousing, no sorting hubs.</p>
-        </div>
-        <div class="pill-card">
-          <p class="pill-title">Asset-light economics</p>
-          <p class="pill-copy">Software-first model with instant liquidity on both sides of the marketplace.</p>
-        </div>
-        <div class="pill-card">
-          <p class="pill-title">Climate aligned</p>
-          <p class="pill-copy">Zero incremental emissions—every delivery piggybacks on flights that already exist.</p>
-        </div>
-        <div class="pill-card">
-          <p class="pill-title">Trusted rails</p>
-          <p class="pill-copy">ID verification, insurance, and smart escrow reduce risk for senders and travelers.</p>
-        </div>
-      </div>
-    </section>
+    </article>
 
-    <section id="how" class="timeline reveal">
-      <div class="timeline__header">
-        <p class="eyebrow">Product in motion</p>
-        <h2>How AirCarry works</h2>
-        <p class="lede">A concise flow that converts latent capacity into revenue while delighting customers.</p>
+    <article class="device">
+      <div class="speaker"></div>
+      <div class="screen">
+        <header class="topbar">
+          <span class="icon">←</span>
+          <div class="center-title">Tracking Parcel</div>
+          <span class="icon">⇪</span>
+        </header>
+        <section class="card">
+          <div class="input-group">
+            <label for="tracking">Tracking number</label>
+            <input id="tracking" type="text" placeholder="AWB / Booking ID" />
+          </div>
+          <button class="primary">Track parcel</button>
+        </section>
+        <section class="card">
+          <div class="summary-row">
+            <div>
+              <p class="label">My parcel</p>
+              <p class="value">045897143826</p>
+            </div>
+            <span class="status">In Progress</span>
+          </div>
+          <div class="summary-row">
+            <div>
+              <p class="label">From</p>
+              <p class="value">WAW</p>
+            </div>
+            <div>
+              <p class="label">To</p>
+              <p class="value">LIS</p>
+            </div>
+          </div>
+        </section>
       </div>
-      <div class="timeline__steps">
-        <div class="step">
-          <div class="step__badge">1</div>
-          <div>
-            <h3>Senders post a delivery</h3>
-            <p>Origin, destination, weight, and timing. We auto-verify items and eligibility.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step__badge">2</div>
-          <div>
-            <h3>Travelers list free space</h3>
-            <p>Routes sync with their itineraries. Carry limits and payout preferences are clear.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step__badge">3</div>
-          <div>
-            <h3>Instant matching engine</h3>
-            <p>Our algo matches in seconds, prioritizing trust signals, proximity, and carbon cost.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step__badge">4</div>
-          <div>
-            <h3>Secure handoff & payout</h3>
-            <p>Trackable transfers, in-app verification, and insured delivery. Travelers earn as soon as delivery completes.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    </article>
 
-    <section class="grid reveal" id="trust">
-      <div class="grid__card">
-        <p class="eyebrow">Trust & Safety</p>
-        <h3>Enterprise-grade compliance for a consumer-simple experience.</h3>
-        <ul class="list">
-          <li>KYC/KYB verification for travelers and business senders.</li>
-          <li>Smart escrow that releases funds on confirmed delivery.</li>
-          <li>Dynamic insurance coverage per route and item type.</li>
-          <li>Live tracking with encrypted identity handoffs.</li>
-        </ul>
-      </div>
-      <div class="grid__card">
-        <p class="eyebrow">Momentum</p>
-        <h3>Growing where air travel is densest.</h3>
-        <div class="stats">
-          <div>
-            <span class="stat__value">+220%</span>
-            <span class="stat__label">Quarterly GMV</span>
+    <article class="device">
+      <div class="speaker"></div>
+      <div class="screen">
+        <header class="topbar">
+          <span class="icon">←</span>
+          <div class="center-title">aircarry</div>
+          <span class="icon">⇪</span>
+        </header>
+        <section class="card">
+          <div class="input-group">
+            <label for="from">From</label>
+            <input id="from" type="text" placeholder="City or airport" />
           </div>
-          <div>
-            <span class="stat__value">74</span>
-            <span class="stat__label">Countries live</span>
+          <div class="input-group">
+            <label for="to">To</label>
+            <input id="to" type="text" placeholder="City or airport" />
           </div>
-          <div>
-            <span class="stat__value">98.2%</span>
-            <span class="stat__label">On-time delivery</span>
+          <div class="input-group">
+            <label for="date-range">Date</label>
+            <input id="date-range" type="text" placeholder="Optional" />
           </div>
-        </div>
-        <p class="pill-copy">Investor-ready data room and unit economics available on request.</p>
+          <button class="primary full">Search flights</button>
+        </section>
+        <nav class="tabbar">
+          <a class="tab active" aria-current="page">Backlog</a>
+          <a class="tab">Parcel</a>
+          <a class="tab">Tracking</a>
+          <a class="tab">Profile</a>
+          <div class="tab-indicator"></div>
+        </nav>
       </div>
-    </section>
-
-    <section class="cta reveal" id="cta">
-      <div>
-        <p class="eyebrow">Build with us</p>
-        <h2>Partner on rapid lanes, airport alliances, and enterprise pilots.</h2>
-        <p class="lede">Bring us routes, brands, or fleets—we’ll activate them with insured, verified couriers who are already airborne. Deployable on Runway or your preferred platform with a lightweight static bundle.</p>
-      </div>
-      <div class="cta__actions">
-        <button class="primary">Schedule a partnership call</button>
-        <button class="ghost">Explore integration guide</button>
-      </div>
-    </section>
+    </article>
   </main>
-
-  <footer class="footer">
-    <div class="logo">AirCarry</div>
-    <p class="footer__copy">Turning empty luggage space into the fastest delivery network on earth.</p>
-    <div class="footer__links">
-      <a href="#vision">Vision</a>
-      <a href="#how">Product</a>
-      <a href="#cta">Invest</a>
-    </div>
-  </footer>
-
   <script src="script.js"></script>
 </body>
 </html>
