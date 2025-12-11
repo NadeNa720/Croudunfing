@@ -42,3 +42,26 @@ nextActions.forEach(btn => {
     setTimeout(() => activateTab(sequence[nextIndex]), 160);
   });
 });
+
+// Profile popover for avatar clicks
+const profileOverlay = document.getElementById('profileOverlay');
+const profilePanel = document.getElementById('profilePanel');
+const closeProfile = document.querySelector('.close-profile');
+const avatars = document.querySelectorAll('.user-avatar');
+
+const setProfileVisibility = (isVisible) => {
+  profileOverlay.classList.toggle('active', isVisible);
+  profilePanel.classList.toggle('active', isVisible);
+  profilePanel.setAttribute('aria-hidden', (!isVisible).toString());
+};
+
+avatars.forEach(avatar => {
+  avatar.addEventListener('click', () => setProfileVisibility(true));
+});
+
+profileOverlay.addEventListener('click', () => setProfileVisibility(false));
+closeProfile?.addEventListener('click', () => setProfileVisibility(false));
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') setProfileVisibility(false);
+});

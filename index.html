@@ -22,7 +22,6 @@
       <h1>Book a flight, carry parcels, and track everything in one clean flow.</h1>
       <p class="lede">A visual preview of the AirCarry experience for senders and travelers, inspired by the latest product design mock.</p>
     </div>
-    <div class="badge">Zero new flights · Peer-to-peer delivery</div>
   </header>
 
   <nav class="functional-tabs" aria-label="Functional sections">
@@ -41,9 +40,9 @@
         <header class="topbar">
           <span class="icon">←</span>
           <span class="title">aircarry</span>
-          <div class="user-avatar" aria-label="User profile">
+          <button class="user-avatar" type="button" aria-label="User profile">
             <span class="avatar-letter">A</span>
-          </div>
+          </button>
         </header>
         <section class="panel highlight">
           <div class="flight-icon">✈️</div>
@@ -83,9 +82,9 @@
         <header class="topbar">
           <span class="icon">←</span>
           <div class="center-title">Send Parcel</div>
-          <div class="user-avatar" aria-label="User profile">
+          <button class="user-avatar" type="button" aria-label="User profile">
             <span class="avatar-letter">A</span>
-          </div>
+          </button>
         </header>
         <section class="card">
           <p class="label">Parcel size</p>
@@ -118,9 +117,9 @@
         <header class="topbar">
           <span class="icon">←</span>
           <div class="center-title">Tracking Parcel</div>
-          <div class="user-avatar" aria-label="User profile">
+          <button class="user-avatar" type="button" aria-label="User profile">
             <span class="avatar-letter">A</span>
-          </div>
+          </button>
         </header>
         <section class="card">
           <div class="input-group">
@@ -157,9 +156,9 @@
         <header class="topbar">
           <span class="icon">←</span>
           <div class="center-title">aircarry</div>
-          <div class="user-avatar" aria-label="User profile">
+          <button class="user-avatar" type="button" aria-label="User profile">
             <span class="avatar-letter">A</span>
-          </div>
+          </button>
         </header>
         <section class="card">
           <div class="input-group">
@@ -176,16 +175,42 @@
           </div>
           <button class="primary full next-action">Search flights</button>
         </section>
-        <nav class="tabbar">
-          <a class="tab active" aria-current="page">Backlog</a>
-          <a class="tab">Parcel</a>
-          <a class="tab">Tracking</a>
-          <a class="tab">Profile</a>
-          <div class="tab-indicator"></div>
-        </nav>
       </div>
     </article>
   </main>
+  <div class="profile-overlay" id="profileOverlay"></div>
+  <section class="profile-panel" id="profilePanel" aria-hidden="true" aria-label="User profile details">
+    <header class="profile-header">
+      <div class="profile-avatar">A</div>
+      <div>
+        <p class="label">Signed in as</p>
+        <p class="profile-name">Avery Collins</p>
+        <p class="profile-tier">Verified traveler · AirCarry Trust</p>
+      </div>
+      <button class="close-profile" type="button" aria-label="Close profile">×</button>
+    </header>
+    <dl class="profile-details">
+      <div>
+        <dt>Email</dt>
+        <dd>avery.collins@aircarry.app</dd>
+      </div>
+      <div>
+        <dt>Member since</dt>
+        <dd>March 2024</dd>
+      </div>
+      <div>
+        <dt>Recent routes</dt>
+        <dd>WAW → LIS · JFK → BCN</dd>
+      </div>
+      <div>
+        <dt>Verified</dt>
+        <dd>Passport + payout</dd>
+      </div>
+    </dl>
+    <div class="profile-actions">
+      <button class="primary full" type="button">View my bookings</button>
+    </div>
+  </section>
   <script src="script.js"></script>
 </body>
 </html>

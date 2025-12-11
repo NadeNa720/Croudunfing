@@ -4,7 +4,7 @@ This repo hosts a static preview of the AirCarry mobile experience, mirroring th
 
 Each main action automatically glides to the next stage to show the end-to-end story, and the page floats on top of a subtle animated backdrop to keep the presentation investor-ready.
 
-A personalized profile avatar in each mock screen highlights the trusted, user-first feel of the experience.
+A personalized profile avatar in each mock screen highlights the trusted, user-first feel of the experience, and clicking it reveals a short profile card with traveler details.
 
 ## Running locally
 
