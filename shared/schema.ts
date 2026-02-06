@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, decimal } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, decimal, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -10,23 +10,35 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
 });
 
-export const bookings = pgTable("bookings", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  service: text("service").notNull(),
-  area: text("area").notNull(),
-  windowOption: text("window_option"),
-  date: text("date").notNull(),
-  time: text("time").notNull(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  phone: text("phone").notNull(),
-  email: text("email").notNull(),
-  address: text("address").notNull(),
-  additionalInfo: text("additional_info"),
-  price: decimal("price", { precision: 8, scale: 2 }).notNull(),
-  duration: text("duration").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-});
+export const bookings = pgTable(
+  "bookings",
+  {
+    id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+    service: text("service").notNull(),
+    area: text("area").notNull(),
+    windowOption: text("window_option"),
+    date: text("date").notNull(),
+    time: text("time").notNull(),
+    firstName: text("first_name").notNull(),
+    lastName: text("last_name").notNull(),
+    phone: text("phone").notNull(),
+    email: text("email").notNull(),
+    address: text("address").notNull(),
+    additionalInfo: text("additional_info"),
+    price: decimal("price", { precision: 8, scale: 2 }).notNull(),
+    duration: text("duration").notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => {
+    return {
+      // Prevent double booking for the exact same start date & time
+      bookingDateTimeUnique: uniqueIndex("booking_date_time_unique").on(
+        table.date,
+        table.time,
+      ),
+    };
+  },
+);
 
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,

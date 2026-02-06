@@ -83,12 +83,38 @@ export default function BookingForm({ selectedService, onSubmit }: BookingFormPr
       }, 3000);
     },
     onError: (error: any) => {
+      // Specjalne traktowanie konfliktu 409 — termin zajęty
+      if (typeof error?.message === "string" && error.message.startsWith("409:")) {
+        try {
+          const jsonPart = error.message.replace(/^409:\s*/, "");
+          const parsed = JSON.parse(jsonPart);
+          const msg =
+            parsed?.error ||
+            "Wybrany termin jest już zajęty. Prosimy wybrać inną godzinę.";
+
+          setErrors((prev) => ({
+            ...prev,
+            time: msg,
+          }));
+          return;
+        } catch {
+          setErrors((prev) => ({
+            ...prev,
+            time: "Wybrany termin jest już zajęty. Prosimy wybrać inną godzinę.",
+          }));
+          return;
+        }
+      }
+
+      // Inne błędy pokazujemy w toast
       toast({
         title: "Błąd",
-        description: error.message || "Wystąpił błąd podczas składania rezerwacji. Spróbuj ponownie.",
-        variant: "destructive"
+        description:
+          error?.message ||
+          "Wystąpił błąd podczas składania rezerwacji. Spróbuj ponownie.",
+        variant: "destructive",
       });
-    }
+    },
   });
 
   // Update service when selection changes
@@ -418,6 +444,13 @@ export default function BookingForm({ selectedService, onSubmit }: BookingFormPr
             </div>
           </div>
           
+          {/* Global booking error (np. zajęty termin) nad przyciskiem */}
+          {errors.time && !isSubmitted && (
+            <div className="rounded-md bg-destructive/10 border border-destructive/30 px-3 py-2 text-sm text-destructive">
+              {errors.time}
+            </div>
+          )}
+
           {isSubmitted ? (
             <div className="flex items-center justify-center gap-2 p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
               <CheckCircle className="w-5 h-5 text-green-600" />

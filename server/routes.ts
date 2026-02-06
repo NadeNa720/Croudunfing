@@ -1,10 +1,19 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import {
+  createCalendarEventForBooking,
+  isSlotAvailableForBooking,
+} from "./googleCalendar";
 import { insertBookingSchema, CLEANING_SERVICES } from "@shared/schema";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
-import { sendCustomerConfirmation, sendBusinessNotification, testEmailConnection } from "./emailService";
+import {
+  sendCustomerConfirmation,
+  sendBusinessNotification,
+  testEmailConnection,
+  upsertBrevoContact,
+} from "./emailService";
 import fs from "fs";
 import path from "path";
 
@@ -116,14 +125,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      // Create booking with calculated price and duration
+      // Before creating booking, check availability in Google Calendar
+      const slotIsFree = await isSlotAvailableForBooking({
+        date: bookingData.date,
+        time: bookingData.time,
+        duration: finalDuration,
+      });
+
+      if (!slotIsFree) {
+        return res.status(409).json({
+          error:
+            "Wybrany termin jest już zajęty w kalendarzu. Prosimy wybrać inną godzinę.",
+        });
+      }
+
+      // Create booking with calculated price and duration (DB-level protection against race conditions)
       const booking = await storage.createBooking({
         ...bookingData,
         price: finalPrice.toString(),
         duration: finalDuration
       });
 
-      // Send email notifications
+      // Create Google Calendar event (best-effort; booking remains valid even if this fails)
+      try {
+        await createCalendarEventForBooking(booking);
+        console.log(`✅ Google Calendar event created for booking #${booking.id.substring(0, 8)}`);
+      } catch (calendarError) {
+        console.error("Google Calendar event creation failed:", calendarError);
+      }
+
+      // Send email notifications + sync contact to Brevo list
       try {
         // Send confirmation to customer
         await sendCustomerConfirmation(booking);
@@ -132,6 +163,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Send notification to business
         await sendBusinessNotification(booking);
         console.log(`✅ Business notification email sent for booking #${booking.id.substring(0, 8)}`);
+
+        // Sync contact to Brevo marketing list (best-effort)
+        await upsertBrevoContact({
+          id: booking.id,
+          firstName: booking.firstName,
+          lastName: booking.lastName,
+          email: booking.email,
+          phone: booking.phone,
+          service: booking.service,
+          area: booking.area,
+          windowOption: (booking.windowOption as any) || undefined,
+          address: booking.address,
+          date: booking.date,
+          time: booking.time,
+          price: booking.price,
+          duration: booking.duration,
+          createdAt: booking.createdAt?.toISOString?.() ?? undefined,
+          notes: booking.additionalInfo ?? undefined,
+        });
 
         res.status(201).json({
           ...booking,
@@ -146,11 +196,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
           emailError: true
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof z.ZodError) {
         const validationError = fromZodError(error);
         return res.status(400).json({ error: validationError.message });
       }
+
+      // Handle double booking (unique constraint) gracefully
+      if (error && typeof error === "object" && "status" in error && (error as any).status === 409) {
+        return res.status(409).json({
+          error:
+            error.message ||
+            "Ten termin został właśnie zajęty. Prosimy wybrać inną godzinę.",
+        });
+      }
+
       console.error("Error creating booking:", error);
       res.status(500).json({ error: "Internal server error" });
     }

@@ -34,11 +34,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createBooking(insertBooking: InsertBooking): Promise<Booking> {
-    const [booking] = await db
-      .insert(bookings)
-      .values(insertBooking)
-      .returning();
-    return booking;
+    try {
+      const [booking] = await db
+        .insert(bookings)
+        .values(insertBooking)
+        .returning();
+      return booking;
+    } catch (error: any) {
+      // Handle unique constraint violation for (date, time) to prevent double booking
+      if (error && typeof error === "object" && "code" in error && error.code === "23505") {
+        const conflictError = new Error(
+          "Wybrany termin jest już zajęty. Prosimy wybrać inną godzinę.",
+        );
+        // Attach HTTP status so the route handler can return a proper response
+        (conflictError as any).status = 409;
+        throw conflictError;
+      }
+
+      throw error;
+    }
   }
 
   async getBooking(id: string): Promise<Booking | undefined> {

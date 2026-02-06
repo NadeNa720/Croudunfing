@@ -2,6 +2,9 @@
 
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
+const BREVO_CONTACT_LIST_ID = process.env.BREVO_CONTACT_LIST_ID
+  ? Number(process.env.BREVO_CONTACT_LIST_ID)
+  : undefined;
 const MAIL_FROM = process.env.MAIL_FROM || "no-reply@example.com";
 const MAIL_TO_ADMIN = process.env.MAIL_TO_ADMIN || "admin@example.com";
 
@@ -12,6 +15,67 @@ if (!MAIL_TO_ADMIN || MAIL_TO_ADMIN === "admin@example.com") {
   console.warn("[brevo] MAIL_TO_ADMIN is missing or default. Admin notifications may fail.");
 }
 
+
+export async function upsertBrevoContact(b: Booking) {
+  if (!BREVO_API_KEY) {
+    console.warn("[brevo] Skipping contact sync, BREVO_API_KEY not set");
+    return;
+  }
+
+  if (!b.email) {
+    console.warn("[brevo] Skipping contact sync, booking email missing");
+    return;
+  }
+
+  const listIds =
+    typeof BREVO_CONTACT_LIST_ID === "number" && !Number.isNaN(BREVO_CONTACT_LIST_ID)
+      ? [BREVO_CONTACT_LIST_ID]
+      : undefined;
+
+  const attributes: Record<string, any> = {
+    FIRSTNAME: b.firstName ?? "",
+    LASTNAME: b.lastName ?? "",
+    PHONE: b.phone ?? "",
+    ADDRESS: b.address ?? "",
+    SERVICE: b.service ?? "",
+    AREA: b.area ?? "",
+    DATE: b.date ?? "",
+    TIME: b.time ?? "",
+  };
+
+  try {
+    const resp = await fetch("https://api.brevo.com/v3/contacts", {
+      method: "POST",
+      headers: {
+        "api-key": BREVO_API_KEY,
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({
+        email: b.email,
+        attributes,
+        listIds,
+        updateEnabled: true, // jeśli kontakt istnieje, zaktualizuj
+      }),
+    });
+
+    if (!resp.ok) {
+      const err = await resp.text().catch(() => "");
+      console.warn(
+        `[brevo] contact upsert failed for ${b.email}: ${resp.status} ${err}`,
+      );
+      return;
+    }
+
+    console.log(
+      `[brevo] Contact synced to list${listIds ? " " + listIds.join(",") : ""}: ${
+        b.email
+      }`,
+    );
+  } catch (error) {
+    console.error("[brevo] contact upsert error:", error);
+  }
+}
 
 export type Booking = {
   id?: string;
